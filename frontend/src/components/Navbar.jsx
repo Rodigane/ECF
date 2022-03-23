@@ -36,14 +36,16 @@ const Navbar = () => {
                      <img src={Desktoplogo}></img>
                     </Typography>
                 </Link>
+                <Link to="/">
                     <Typography
                         variant="h6"
                         noWrap
                         component="div"
                         sx={{ mr: 2, display: { xs: 'flex', md: 'none', height: '40px' } }}
                     >
-                    <Link to="/">  <img src={Mobilelogo}></img> <img src={Mobilelogo2}></img></Link>  
+                     <img src={Mobilelogo}></img> <img src={Mobilelogo2}></img>
                     </Typography>
+                    </Link>  
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-end' }}>
                         <IconButton
                         size="large"
