@@ -1,5 +1,6 @@
 const express = require("express");
-
+const db = require("./db");
+require("dotenv").config();
 const app = express();
 const PORT = 3005;
 
@@ -10,7 +11,9 @@ app.use(express.json());
 // * ************************  Hotels ********************************** * //
 
 // * Get all hotels
-app.get("/api/v1/hotels", (req, res) => {
+app.get("/api/v1/hotels", async (req, res) => {
+  const results = await db.query("select * from hotels");
+  console.log(results.rows);
   res.status(200).json({
     status: "sucess",
     data: {
