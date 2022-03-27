@@ -38,15 +38,15 @@ app.get("/api/v1/hotels", async (req, res) => {
 
 // * Get a hotel
 app.get("/api/v1/hotels/:hotel_id", async (req, res) => {
-  console.log(req.params);
+  console.log(req.params.hotel_id);
  try{
-  const results = await db.query(`select * from hotels where hotel_id = ${req.params}`);
-    console.log(results.rows);
+  const results = await db.query("select * from hotels where hotel_id = $1",[req.params.hotel_id]);
+    console.log(results.rows[0]);
     res.status(200).json({
     status: "sucess",
     results: results.rows.length,
     data: {
-        hotels: results.rows,
+        hotels: results.rows[0],
       },
     });
   } catch (error) {
@@ -55,20 +55,58 @@ app.get("/api/v1/hotels/:hotel_id", async (req, res) => {
 });
 
 // * Create a new hotel
+// returning * at the end of the query is for postgresql to return the new data inserted
 
-app.post("/api/v1/hotels", (req, res) => {
-  console.log(req);
+app.post("/api/v1/hotels", async (req, res) => {
+  console.log(req.body);
+  try {
+    const results = await db.query
+    ("INSERT INTO hotels (name, city, address, description,photos) values ($1, $2, $3, $4, $5) returning *", 
+    [req.body.name, req.body.city, req.body.address, req.body.description, req.body.name.photo])
+    console.log(results)
+    res.status(200).json({
+      status: "sucess",
+      results: results.rows.length,
+      data: {
+          hotels: results.rows[0],
+        },
+      });
+  } catch (error) {
+    console.error(error)
+  }
 });
 
 // * update a hotel
-app.put("/api/v1/hotels/:hotel_id", (req, res) => {
+app.put("/api/v1/hotels/:hotel_id", async (req, res) => {
   console.log(req.params.hotel_id);
   console.log(req.body);
+  try {
+    const results = await db.query
+    ("UPDATE hotels SET name = $1, city=$2, address = $3, description = $4, photo = $5 WHERE id = $6 RETURNING *",
+    [req.body.name, req.body.city, req.body.address, req.body.description, req.body.name.photo, req.params.hotel_id])
+    res.status(200).json({
+      status: "sucess",
+      results: results.rows.length,
+      data: {
+          hotels: results.rows[0],
+        },
+      });
+  } catch (error) {
+    console.error(error)
+  }
 });
 
 // * delete a hotel
-app.delete("/api/v1/hotels/:hotel_id", (req, res) => {
+app.delete("/api/v1/hotels/:hotel_id",async (req, res) => {
   console.log(req.params.hotel_id);
+  try {
+    const results = await db.query("DELETE FROM hotels where id = $1",[req.params.hotel_id]);
+    res.status(200).json(
+      console.log('delete successfull')
+    )
+  } catch (error) {
+    console.error(error)
+  }
 });
 // * ************************  Hotels ********************************** * //
 // * ************************  Suites ********************************** * //
