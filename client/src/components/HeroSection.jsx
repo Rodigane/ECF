@@ -1,6 +1,6 @@
 import { Paper, Box, Typography, Button, Grid} from "@mui/material"
 import React from "react"
-import herobg from "../assets/photos/hero.jpg"
+import herobg from "/assets/photos/hero.jpg"
 import { Link } from "react-router-dom"
 
 

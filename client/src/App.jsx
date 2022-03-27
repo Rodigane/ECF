@@ -1,19 +1,20 @@
 import CssBaseline from '@mui/material/CssBaseline';
 import { Routes, Route } from 'react-router-dom';
 import './App.css'
-
+import { Box } from '@mui/system';
 // TODO index of components
 import Admin from './components/Admin';
 import Contact from './components/Contact';
 import Customer from './components/Customer';
 import Hotels from './components/hotels/Hotels';
-import Home from './components/HeroSection';
+import Home from './components/Home';
 import Hotel from './components/Hotel';
 import Manager from './components/Manager';
 import Navbar from './components/Navbar';
 import Suite from './components/Suite';
 import Suites from './components/Suites';
 import Footer from './components/Footer';
+import SignUp from './components/SignUp';
 // TODO index of components
 
 
@@ -23,7 +24,13 @@ function App() {
 
   return (
     <div className="App">
-      <>
+       <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+      }}
+    >
         <CssBaseline />
         <div className='Navbar'>
         <Navbar />
@@ -39,12 +46,14 @@ function App() {
             <Route exact element={<Admin />} path="/admin"></Route>
             <Route exact element={<Manager />} path="/manager"></Route>
             <Route exact element={<Contact />} path="/contact"></Route>
+            <Route exact element={<SignUp />} path="/signup"></Route>
+            
         </Routes>
         </div>
         <div className='footer'>
           <Footer />
         </div>
-      </>
+      </Box>
     </div>
   )
 }

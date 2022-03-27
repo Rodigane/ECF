@@ -9,8 +9,9 @@ import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@
         component="img"
         sx={{
          maxHeight: '220px',
+         alignItems:'center'
         }}
-        image={`${hotel.photo}`}
+        src={`${hotel.photo}`}
         alt="random"
         />
         <CardContent sx={{ flexGrow: 1 }}>

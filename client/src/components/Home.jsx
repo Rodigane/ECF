@@ -5,7 +5,7 @@ import Hotels from "./hotels/Hotels"
 const Home = () => {
     return (
         <>
-            <HeroSection />
+            <HeroSection /> 
             <Hotels />
         </>
     )
