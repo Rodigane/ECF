@@ -6,7 +6,7 @@ import './App.css'
 import Admin from './components/Admin';
 import Contact from './components/Contact';
 import Customer from './components/Customer';
-import Hotels from './components/Hotels';
+import Hotels from './components/hotels/Hotels';
 import Home from './components/HeroSection';
 import Hotel from './components/Hotel';
 import Manager from './components/Manager';

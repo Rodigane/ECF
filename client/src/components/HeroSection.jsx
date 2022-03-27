@@ -59,14 +59,16 @@ const HeroSection = () => {
                     </Grid>  
                     <Grid item xs={8}></Grid>
                     <Grid item xs={4}>
+                    <Link path to ="/hotels">
                     <Button variant="contained" size="small" sx={{mt:6, mr:6, backgroundColor: '#E2DFAE', color: 'red', display: { xs: 'flex', md: 'none' }}}>
                     Nos établissements
                         </Button> 
+                        </Link>
                         </Grid>
                     <Grid item xs={0} md={12} sx={{backgroundColor: '', height : '16rem'}}></Grid>
                     <Grid item xs={0} md={8} sx={{backgroundColor: ''}}></Grid>
                     <Grid item>
-                        <Link path to ="/etablissements">
+                        <Link path to ="/hotels">
                         <Button variant="contained" size="large" sx={{ backgroundColor: '#E2DFAE', color: 'black', display: { xs: 'none', md: 'block' } }}>
                     Nos établissements
                         </Button>

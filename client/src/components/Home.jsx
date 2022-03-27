@@ -1,7 +1,6 @@
 import React from "react"
-import Hotels from "./Hotels"
 import HeroSection from "./HeroSection"
-
+import Hotels from "./hotels/Hotels"
 
 const Home = () => {
     return (
