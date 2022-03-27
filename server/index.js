@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import db from "./db/index.cjs";
 
-
+import hotelRoutes from "./routes/hotel.js";
 const app = express();
 
 dotenv.config();
@@ -15,10 +15,10 @@ const PORT = process.env.PORT;
 
 // ? middleware within express, allow you to retrieve the data of the request with req.body as an object
 app.use(express.json());
-
+app.use("/api/v1/hotels", hotelRoutes);
 // ! ************************  Routes ********************************** ! //
 // * ************************  Hotels ********************************** * //
-
+/** 
 // * Get all hotels 
 app.get("/api/v1/hotels", async (req, res) => {
   try {
@@ -109,6 +109,7 @@ app.delete("/api/v1/hotels/:hotel_id",async (req, res) => {
   }
 });
 // * ************************  Hotels ********************************** * //
+*/
 // * ************************  Suites ********************************** * //
 
 // * Get all suites
