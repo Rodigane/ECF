@@ -6,7 +6,7 @@ import './App.css'
 import Admin from './components/Admin';
 import Contact from './components/Contact';
 import Customer from './components/Customer';
-import Etablissements from './components/Etablissements';
+import Hotels from './components/Hotels';
 import Home from './components/HeroSection';
 import Hotel from './components/Hotel';
 import Manager from './components/Manager';
@@ -31,7 +31,7 @@ function App() {
         <div className="main">
           <Routes>
             <Route exact element={<Home />} path="/"></Route>
-            <Route exact element={<Etablissements />} path="/etablissements"></Route>
+            <Route exact element={<Hotels />} path="/hotels"></Route>
             <Route exact element={<Hotel />} path="/hotel"></Route>
             <Route exact element={<Suites />} path="/hotel/suites"></Route>
             <Route exact element={<Suite />} path="/suite"></Route>

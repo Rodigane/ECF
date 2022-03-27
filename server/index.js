@@ -1,11 +1,11 @@
 import express from "express";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-import db from "./db/index.cjs";
+import cors from "cors";
 
 import hotelRoutes from "./routes/hotel.js";
 const app = express();
-
+app.use(cors());
 dotenv.config();
 
 app.use(bodyParser.json({limit: "30mb", extended: true }));
