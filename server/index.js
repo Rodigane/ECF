@@ -1,8 +1,17 @@
-const express = require("express");
-const db = require("./db");
-require("dotenv").config();
+import express from "express";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
+import db from "./db/index.cjs";
+
+
 const app = express();
-const PORT = 3005;
+
+dotenv.config();
+
+app.use(bodyParser.json({limit: "30mb", extended: true }));
+app.use(bodyParser.urlencoded({limit: "30mb", extended: true}));
+
+const PORT = process.env.PORT;
 
 // ? middleware within express, allow you to retrieve the data of the request with req.body as an object
 app.use(express.json());
@@ -10,27 +19,39 @@ app.use(express.json());
 // ! ************************  Routes ********************************** ! //
 // * ************************  Hotels ********************************** * //
 
-// * Get all hotels
+// * Get all hotels 
 app.get("/api/v1/hotels", async (req, res) => {
-  const results = await db.query("select * from hotels");
-  console.log(results.rows);
-  res.status(200).json({
-    status: "sucess",
-    data: {
-      hotels: ["Berck", "Pulnoy", "Pezenas"],
-    },
-  });
+  try {
+    const results = await db.query("select * from hotels", );
+    console.log(results.rows);
+    res.status(200).json({
+      status: "sucess",
+      results: results.rows.length,
+      data: {
+        hotels: results.rows,
+      },
+    });
+  } catch (error) {
+    console.error(error)
+  }
 });
 
 // * Get a hotel
-app.get("/api/v1/hotels/:hotel_id", (req, res) => {
+app.get("/api/v1/hotels/:hotel_id", async (req, res) => {
   console.log(req.params);
-  res.status(200).json({
+ try{
+  const results = await db.query(`select * from hotels where hotel_id = ${req.params}`);
+    console.log(results.rows);
+    res.status(200).json({
     status: "sucess",
+    results: results.rows.length,
     data: {
-      hotel: req.params,
-    },
-  });
+        hotels: results.rows,
+      },
+    });
+  } catch (error) {
+    console.error(error)
+  }
 });
 
 // * Create a new hotel
@@ -178,7 +199,7 @@ app.delete("/api/v1/managers/:manager_id", (req, res) => {
 
 // * ************************  Routes ********************************** * //
 // ! ************************  Routes ********************************** ! //
-
+console.log(PORT)
 app.listen(PORT, () => {
   console.log(`server up and running on port : ${PORT}`);
 });
