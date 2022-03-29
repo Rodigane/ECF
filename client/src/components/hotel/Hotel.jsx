@@ -2,11 +2,12 @@ import React from "react"
 import { Typography, Paper, Box, Container, Grid,ImageList, ImageListItem, ImageListItemBar, Card, CardMedia, CardContent } from "@mui/material"
 import { useSelector } from "react-redux";
 import { useGetHotelQuery } from "../../api/apiSlice";
+import Suites from "../suites/Suites";
 
 
 const Hotel = () => {
 
- 
+ // We're retrieving the hotel_id from the store
   const hotelId = useSelector(state => state.hotel.hotel)
   let { data, isSuccess } = useGetHotelQuery(hotelId);
   let hotel
@@ -47,8 +48,10 @@ const Hotel = () => {
       : <p>Loading ....</p>
       
       }  
-         <Typography variant="h2" mt={2} mb={2} component="h3" sx={{fontSize:{xs:'34px', fontWeight:'bold'}}}>Nos Suites </Typography>
-
+      { hotel ?
+        <Suites />
+    : <p>Loading ....</p>}
+       
       </>
     )
     }

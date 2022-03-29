@@ -60,7 +60,7 @@ export const createHotel =  async (req, res) => {
     console.log(req.body);
     try {
       const results = await db.query
-      ("UPDATE hotels SET name = $1, city=$2, address = $3, description = $4, photo = $5 WHERE id = $6 RETURNING *",
+      ("UPDATE hotels SET name = $1, city=$2, address = $3, description = $4, photo = $5 WHERE hotel_id = $6 RETURNING *",
       [hotel.name, hotel.city, hotel.address, hotel.description, hotel.photo, hotel_id])
       res.status(200).json({
         status: "sucess",
@@ -78,7 +78,7 @@ export const createHotel =  async (req, res) => {
     const hotel_id = req.parms.hotel_id
     console.log(hotel_id);
     try {
-      const results = await db.query("DELETE FROM hotels where id = $1",[hotel_id]);
+      const results = await db.query("DELETE FROM hotels where hotel_id = $1",[hotel_id]);
       res.status(200).json(
         console.log('delete successfull')
       )

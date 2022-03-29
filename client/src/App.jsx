@@ -41,7 +41,7 @@ function App() {
             <Route exact element={<Hotels />} path="/hotels"></Route>
             <Route exact element={<Hotel  />} path="/hotel/:city"></Route>
             <Route exact element={<Suites />} path="/hotel/suites"></Route>
-            <Route exact element={<Suite />} path="/suite"></Route>
+            <Route exact element={<Suite />} path="/:city/:suite"></Route>
             <Route exact element={<Customer />} path="/moncompte"></Route>
             <Route exact element={<Admin />} path="/admin"></Route>
             <Route exact element={<Manager />} path="/manager"></Route>
