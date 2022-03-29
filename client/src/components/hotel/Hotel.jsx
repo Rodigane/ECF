@@ -20,12 +20,13 @@ const Hotel = () => {
       { hotel  ? 
       <Box mx={10} my={6}>
         <Box sx={{display:'flex'}}>
-          <ImageList>
-          <ImageListItem>
+          <ImageList >
+          <ImageListItem >
             <img
-              src={`/public/${hotel.photo}`}
+              src={`/${hotel.photo}`}
               alt={hotel.name}
               loading="lazy"
+              sx={{maxHeight:'420px'}}
             />
             <ImageListItemBar
               title={hotel.name}
