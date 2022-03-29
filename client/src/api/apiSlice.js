@@ -8,7 +8,7 @@ export const apiSlice = createApi({
             query: () => "/hotels",
         }),
         getHotel: builder.query({
-            query: (hotel_id) => `/hotels/${hotel_id}`,
+            query: (id) => `/hotels/${id}`,
         }),
     }),
 });
