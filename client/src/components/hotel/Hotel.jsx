@@ -9,6 +9,7 @@ const Hotel = () => {
 
  // We're retrieving the hotel_id from the store
   const hotelId = useSelector(state => state.hotel.hotel)
+
   let { data, isSuccess } = useGetHotelQuery(hotelId);
   let hotel
   isSuccess ?   hotel = data.data.hotels : console.log('nothing fetch');
@@ -24,7 +25,7 @@ const Hotel = () => {
           <ImageList >
           <ImageListItem >
             <img
-              src={`/${hotel.photo}`}
+              src={`/${hotel.photo}?w=248&fit=crop&auto=format`}
               alt={hotel.name}
               loading="lazy"
               sx={{maxHeight:'420px'}}

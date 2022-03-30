@@ -27,7 +27,7 @@ import { selectHotel } from '../../reducers/hotelSlice';
             </CardContent>
         <CardActions sx={{justifyContent: 'center'}}>
         <Link to={`/hotel/${hotel.city}`}> 
-        <Button onClick={() => dispatch(selectHotel( hotel.hotel_id))} size="small">Voir les suites</Button>
+        <Button onClick={() => dispatch(selectHotel( hotel.hotel_id ))} size="small">Voir les suites</Button>
         </Link>
         </CardActions>
         </Card>

@@ -1,7 +1,7 @@
 import { Card, CardMedia, CardContent, Typography, CardActions, Button,ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import {Link} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { selectSuite } from '../../reducers/hotelSlice';
+import { selectSuite } from '../../reducers/suiteSlice';
 
  const SuiteCard = ({suite}) => {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ import { selectSuite } from '../../reducers/hotelSlice';
         </Typography>
             </CardContent>
         <CardActions sx={{justifyContent: 'center'}}>
-        <Link to={`/hotel/${suite.title}`}> 
+        <Link to={`/hotel/suite`}> 
         <Button onClick={() => dispatch(selectSuite( suite.suite_id))} size="small">En savoir Plus</Button>
         </Link>
         </CardActions>

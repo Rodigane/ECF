@@ -14,7 +14,7 @@ export const apiSlice = createApi({
             query: (hotel_id) => `/suites/${hotel_id}`,
         }),
         getSuite: builder.query({
-            query: (suite_id) => `/suites/${suite_id}`
+            query: (suite_id) => `/suites/suite/${suite_id}`
         })
     }),
 });

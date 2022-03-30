@@ -20,8 +20,10 @@ export const getSuites = async (req, res) => {
 
     // * Get a suite
   export const getSuite = async (req, res) => {
+    console.log(req.params.suite_id)
     try {
       const results = await db.query("select * from suites where suite_id = $1", [req.params.suite_id]);
+      console.log(req.params.suite_id)
       console.log(results.rows);
       res.status(200).json({
         status: "sucess",
@@ -34,6 +36,14 @@ export const getSuites = async (req, res) => {
       console.error(error)
     }
   };
+ 
+
+
+
+
+
+
+
 
     // * create a suite
   export const createSuite =  async (req, res) => {

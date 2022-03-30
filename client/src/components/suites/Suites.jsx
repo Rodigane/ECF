@@ -25,7 +25,6 @@ const Suites = () => {
                 <Container sx={{ py: 8 }} maxWidth="lg">
                 <Grid container spacing={4}>
                   { suites.map((suite) => (
-            
                     <Grid item key={suite.suite_id} xs={12} sm={6} md={6}>
                         <SuiteCard key={suite.suite_id} suite={suite} />
                     </Grid>
