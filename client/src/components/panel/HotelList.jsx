@@ -1,0 +1,75 @@
+import { useSelector } from 'react-redux';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { useGetHotelQuery } from "../../api/apiSlice";
+import DeleteButton from '../Buttons/DeleteButton';
+import HotelEdit from './HotelEdit';
+import SuitesList from './SuitesList';
+import HotelDelete from './HotelDelete';
+const HotelList = () => {
+    const hotel = useSelector(state => state.hotel.hotel)
+    console.log(hotel)
+    /** 
+    let { data, isSuccess } = useGetHotelQuery(hotelId);
+    let hotel
+    isSuccess ?   hotel = data.data.hotels : console.log('nothing fetch');
+    hotel ? console.log(hotel) : null;
+*/
+    return (
+        <>
+        <Typography variant="h3" align="center">
+       { hotel ? hotel.name : null} 
+        </Typography>    
+    <Table sx={{ minWidth: "100%" }}  aria-label="simple table">
+        <TableContainer component={Paper} align="left">
+            {hotel ?
+                <>
+
+                    <TableHead >
+                        <TableRow >
+                            <TableCell>Hotel</TableCell>
+                            <TableCell align="center">Ville</TableCell>
+                            <TableCell align="center">Adresse</TableCell>
+                            <TableCell align="center">Photo</TableCell>
+                            <TableCell align="center">Description</TableCell>
+                            <TableCell align="center">Hotel ID</TableCell>
+                            <TableCell align="center">Manager ID</TableCell>
+                        </TableRow>
+                    </TableHead>
+                            <TableBody >
+                        {
+                            <TableRow
+                                key={hotel.hotel_id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
+                            >
+                                <TableCell component="th" scope="row" sx={{maxWidth: "150px"}}>
+                                    {hotel.name}
+                                </TableCell>
+                                <TableCell align="center" sx={{maxWidth: "150px"}}>{hotel.city}</TableCell>
+                                <TableCell align="center" sx={{maxWidth: "150px"}} >{hotel.address}</TableCell>
+                                <TableCell align="center" noWrap="true" sx={{ maxWidth: "100px", overflow: "hidden", textOverflow: 'ellipsis' }}>{hotel.photo}</TableCell>
+                                <TableCell align="center" noWrap="true" sx={{ maxWidth: "100px", overflow: "hidden", textOverflow: 'ellipsis' }}>{hotel.description}</TableCell>
+                                <TableCell align="center">{hotel.hotel_id}</TableCell>
+                                <TableCell align="center">{hotel.manager_id}</TableCell>
+                                <TableCell align="center"><HotelEdit /></TableCell>
+                                <TableCell align="center"><HotelDelete /></TableCell>
+
+                            </TableRow>
+                        }
+                    </TableBody>
+                   
+                </>
+                : <p>Loading</p>}
+      
+        </TableContainer >
+
+            </Table>
+            {hotel ?
+                <SuitesList />
+                : null
+            }
+           
+            </>
+    )}
+export default HotelList
+
+

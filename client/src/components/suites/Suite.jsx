@@ -40,7 +40,7 @@ const Suite = () => {
     }
    
       { suite ?
- <Box>
+      <Box>
       <Typography>
         {suite.title}
       </Typography>

@@ -8,7 +8,7 @@ import Suites from "../suites/Suites";
 const Hotel = () => {
 
  // We're retrieving the hotel_id from the store
-  const hotelId = useSelector(state => state.hotel.hotel)
+  const hotelId = useSelector(state => state.hotel.hotel);
 
   let { data, isSuccess } = useGetHotelQuery(hotelId);
   let hotel

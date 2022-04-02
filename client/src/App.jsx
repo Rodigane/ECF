@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css'
 import { Box } from '@mui/system';
 // TODO index of components
-import Admin from './components/Admin';
+import Admin from './components/panel/Admin';
 import Contact from './components/Contact';
 import Customer from './components/Customer';
 import Hotels from './components/hotels/Hotels';
