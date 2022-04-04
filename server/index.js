@@ -4,20 +4,22 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import hotelRoutes from "./routes/hotel.js";
-import suiteRoutes from "./routes/suite.js"
+import suiteRoutes from "./routes/suite.js";
+import reservationRoutes from "./routes/reservation.js";
 const app = express();
 app.use(cors());
 dotenv.config();
 
-app.use(bodyParser.json({limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({limit: "30mb", extended: true}));
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
 const PORT = process.env.PORT;
 
 // ? middleware within express, allow you to retrieve the data of the request with req.body as an object
 app.use(express.json());
-app.use("/api/v1/hotels", hotelRoutes );
-app.use("/api/v1/suites",  suiteRoutes);
+app.use("/api/v1/hotels", hotelRoutes);
+app.use("/api/v1/suites", suiteRoutes);
+app.use("/api/v1/reservations", reservationRoutes);
 
 // ! ************************  Routes ********************************** ! //
 
@@ -105,7 +107,7 @@ app.delete("/api/v1/managers/:manager_id", (req, res) => {
 
 // * ************************  Routes ********************************** * //
 // ! ************************  Routes ********************************** ! //
-console.log(PORT)
+console.log(PORT);
 app.listen(PORT, () => {
   console.log(`server up and running on port : ${PORT}`);
 });

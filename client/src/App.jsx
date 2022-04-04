@@ -15,6 +15,7 @@ import Suite from './components/suites/Suite';
 import Suites from './components/suites/Suites';
 import Footer from './components/Footer';
 import SignUp from './components/SignUp';
+import Reservation from './components/reservations/Reservations';
 // TODO index of components
 
 
@@ -47,6 +48,8 @@ function App() {
             <Route exact element={<Manager />} path="/manager"></Route>
             <Route exact element={<Contact />} path="/contact"></Route>
             <Route exact element={<SignUp />} path="/signup"></Route>
+            <Route exact element={<Reservation />} path="/reservation"></Route>
+
             
         </Routes>
         </div>

@@ -44,6 +44,47 @@ export const apiSlice = createApi({
     getSuite: builder.query({
       query: (suite_id) => `/suites/suite/${suite_id}`,
     }),
+    deleteSuite: builder.mutation({
+      query(suite_id) {
+        return {
+          url: `/suites/suite/${suite_id}`,
+          method: "DELETE",
+        };
+      },
+    }),
+    updateSuite: builder.mutation({
+      query(data) {
+        const { suite_id, ...body } = data;
+        return {
+          url: `/suites/suite/${suite_id}`,
+          method: "PUT",
+          body,
+        };
+      },
+    }),
+    createSuite: builder.mutation({
+      query(data) {
+        const { hotel_id, body } = data;
+        return {
+          url: `/suites/${hotel_id}`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getReservations: builder.query({
+      query: (suite_id) => `/reservations/${suite_id}`,
+    }),
+    createReservation: builder.mutation({
+      query(data) {
+        const { suite_id, customer_id, body } = data;
+        return {
+          url: `/reservations/${suite_id}/${customer_id}`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -55,4 +96,9 @@ export const {
   useDeleteHotelMutation,
   useGetSuitesQuery,
   useGetSuiteQuery,
+  useUpdateSuiteMutation,
+  useCreateSuiteMutation,
+  useDeleteSuiteMutation,
+  useGetReservationsQuery,
+  useCreateReservationMutation,
 } = apiSlice;

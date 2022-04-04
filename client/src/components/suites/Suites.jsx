@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect} from "react"
 import { Typography, Paper, Box, Container, Grid } from "@mui/material"
 import { useGetSuitesQuery } from "../../api/apiSlice"
 import SuiteCard from "./SuiteCard"
@@ -10,8 +10,9 @@ const Suites = () => {
     let { data , isLoading, isSuccess, isError } = useGetSuitesQuery(hotelId);
     let suites;
     isSuccess ?  suites = data.data.suites : null;   
-    suites ? console.log(suites ) : null;
+    suites ? console.log(suites) : null;
   
+
     return (
         <>
          <Typography variant="h2" mt={2} mb={2} component="h2" sx={{fontSize:{xs:'34px', fontWeight:'bold'}}}>Nos Suites</Typography>

@@ -1,15 +1,13 @@
 import React, {useState} from "react"
 import {Grid, Typography, Box, List, Button, Collapse, ListItemText, ListItemButton, ListItemIcon, Accordion, AccordionDetails, AccordionSummary} from '@mui/material';
-import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useGetHotelsQuery } from '../../api/apiSlice'
-import SuitesList from "./SuitesList";
-import HotelList from "./HotelList";
+import SuitesList from "./suites/SuitesList";
+import HotelList from "./hotels/HotelList";
 import { useDispatch } from "react-redux";
 import { selectHotel } from '../../reducers/hotelSlice';
-import HotelAdd from "./HotelAdd";
+import HotelCreate from "./hotels/HotelCreate";
 
 
 const Admin = () => {
@@ -54,7 +52,7 @@ const Admin = () => {
             )) 
             : <p>Loading</p>
             }
-        <HotelAdd />
+        <HotelCreate />
 
         </ul>
 
@@ -101,10 +99,7 @@ const Admin = () => {
             <Typography variant="H2" >  Pannel d'administration </Typography>
         </Box>
         <Box>
-              <HotelList />
-            
-            {/**  <SuitesList /> */ }  
-               
+              <HotelList />               
         </Box>
         </Grid>
     </Grid>    
