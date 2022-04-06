@@ -16,6 +16,8 @@ export default function DatePicker() {
   const onOptionChange = e => setOption(e.target.value);
   // ! Retrieving Suite_id from the store to request the db
   const suiteId = useSelector(state => state.suite.suite)
+  const user = useSelector(state => state.user)
+  const hotel = useSelector(state => state.hotel)
   console.info(suiteId)
   // ! Fetching data from reservations in the db    
   const { data, isSucces } = useGetReservationsQuery(suiteId);
@@ -23,14 +25,17 @@ export default function DatePicker() {
   data ? reservations = data.data.reservations : null;
  
 
-
+// TODO  Calculate the number of night, and the cost (suite.price * nb_night) / Create an array with the reserved date
+    //TODO   Compare the selected date with the array of reserved date, if !== we can dispatch the reservation if not error
+    const nb_night = 3;
+    const cost = 99;
   // ? function that return an array with all the dates from the first day to the last day
   // ? excluding the last day
   const getDatesInRange = (startDate, endDate) => {
     const date = new Date(startDate);
     const endD = new Date(endDate);
     const dates = [];
-
+    
     // ! the result of my function were on day ahead, so i fixe that with thoses two lines
     date.setDate(date.getDate() - 1);
     endD.setDate(endD.getDate() - 1);
@@ -52,7 +57,7 @@ export default function DatePicker() {
           dateRaw = dateRaw.concat(getDatesInRange(new Date(reservation.start_date), new Date(reservation.end_date)))
       ) : null
  //   console.log(dateRaw.map(date => format(new Date(date),"yyyy-MM-dd")))
-    return dateRaw.includes(date.getTime());
+    return dateRaw.includes(date.getTime());  
   }
 
   //reservations ? reservations.map(reservation => console.log(reservation)) : null;
@@ -60,7 +65,7 @@ export default function DatePicker() {
   const [createReservation, { isLoading: isUpdating }] = useCreateReservationMutation()
 // TODO change the customer_id by a real one
   const handleReservation = () => {
-    createReservation({suite_id : suiteId, customer_id: 4, body: {start_date: value[0], end_date : value[1], option} })
+    createReservation({suite_id : suiteId, customer_id: user.user.customer_id,token: user.token, body: {start_date: value[0], end_date : value[1], option, nb_night, cost, hotel  } })
   }
  
   return (

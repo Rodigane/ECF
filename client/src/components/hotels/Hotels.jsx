@@ -6,9 +6,9 @@ import HotelCard from "./HotelCard"
 
 const Hotels = () => {
 
-    let { data , isLoading, isSuccess, isError } = useGetHotelsQuery();
-    let hotels;
-    isSuccess ?  hotels = data.data.hotels : null;   
+      let { data , isLoading, isSuccess, isError } = useGetHotelsQuery();
+      let hotels;
+      isSuccess ?  hotels = data.data.hotels : null;   
 
     return (
         <>

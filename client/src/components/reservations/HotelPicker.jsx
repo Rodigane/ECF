@@ -30,7 +30,7 @@ const HotelPicker = () => {
       }}
     >
       {hotels ? hotels.map((option) => (
-        <option key={option.hotel_id} value={option.hotel_id}>
+        <option key={option.hotel_id} value={option.hotel_id} city={option.city} >
           {option.name} - {option.city}
         </option>
       )) : null}
