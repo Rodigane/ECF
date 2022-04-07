@@ -5,11 +5,11 @@ import { Box } from '@mui/system';
 // TODO index of components
 import Admin from './components/panel/Admin';
 import Contact from './components/Contact';
-import Customer from './components/Customer';
+import Customer from './components/panel/customers/Customer';
 import Hotels from './components/hotels/Hotels';
 import Home from './components/Home';
 import Hotel from './components/hotel/Hotel';
-import Manager from './components/Manager';
+import ManagerPanel from './components/panel/managers/ManagerPanel';
 import Navbar from './components/Navbar';
 import Suite from './components/suites/Suite';
 import Suites from './components/suites/Suites';
@@ -52,7 +52,7 @@ function App() {
             <Route exact element={<Suite />} path="/hotel/suite"></Route>
             <Route exact element={<Customer />} path="/moncompte"></Route>
             <Route exact element={<Admin />} path="/admin"></Route>
-            <Route exact element={<Manager />} path="/manager"></Route>
+            <Route exact element={<ManagerPanel />} path="/manager"></Route>
             <Route exact element={<Contact />} path="/contact"></Route>
             <Route exact element={<SignUp />} path="/signup"></Route>
             <Route exact element={<SignIn />} path="/signin"></Route>

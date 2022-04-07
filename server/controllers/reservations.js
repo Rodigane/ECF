@@ -3,8 +3,8 @@ import db from "../db/index.cjs";
 export const getReservations = async (req, res) => {
   try {
     const results = await db.query(
-      "select * from reservations where suite_id = $1",
-      [req.params.suite_id]
+      "select * from reservations where reservation_id = $1",
+      [req.params.reservation_id]
     );
     console.log(results.rows);
     res.status(200).json({
@@ -22,20 +22,21 @@ export const getReservations = async (req, res) => {
 export const createReservation = async (req, res) => {
   const reservation = req.body;
   console.log(reservation);
+  console.log(req.params.user_id);
   console.log(req.params.suite_id);
-  console.log(req.params.customer_id);
+
   try {
     const results = await db.query(
-      "INSERT INTO reservations (start_date, end_date, options, nb_night, cost, city, suite_id, customer_id) values ($1, $2, $3, $4, $5, $6, $7, $8) returning *",
+      "INSERT INTO reservations (start_date, end_date, options, nb_night, cost, city, suite_id, user_id) values ($1, $2, $3, $4, $5, $6, $7, $8) returning *",
       [
         reservation.start_date,
         reservation.end_date,
-        reservation.options,
+        reservation.option,
         reservation.nb_night,
         reservation.cost,
         reservation.hotel,
         req.params.suite_id,
-        req.params.customer_id,
+        req.params.user_id,
       ]
     );
     console.log(results);
@@ -54,10 +55,10 @@ export const createReservation = async (req, res) => {
 export const getCustomerReservations = async (req, res) => {
   try {
     const results = await db.query(
-      "select * from reservations where customer_id = $1",
-      [req.params.customer_id]
+      "select * from reservations where user_id = $1",
+      [req.params.user_id]
     );
-    console.log(req.params.customer_id);
+    console.log(req.params.user_id);
     console.log(results.rows);
     res.status(200).json({
       status: "sucess",
@@ -66,7 +67,20 @@ export const getCustomerReservations = async (req, res) => {
         reservations: results.rows,
       },
     });
-    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteReservation = async (req, res) => {
+  const reservation_id = req.params.reservation_id;
+  console.log(reservation_id);
+  try {
+    const results = await db.query(
+      "DELETE FROM reservations where reservation_id = $1",
+      [reservation_id]
+    );
+    res.status(200).json(console.log("delete successfull"));
   } catch (error) {
     console.error(error);
   }

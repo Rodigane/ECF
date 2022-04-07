@@ -52,7 +52,7 @@ export default function SuiteCreate(hotelId) {
       </Button >
 
     <Dialog open={open} onClose={handleClose} TransitionComponent={Transition} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Modifier</DialogTitle>
+      <DialogTitle id="form-dialog-title">Ajouter</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Vous pouvez maintenant modifier les informations de la suite {title} .

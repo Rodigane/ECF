@@ -32,6 +32,9 @@ import { selectSuite } from '../../reducers/suiteSlice';
         <Link to={`/hotel/suite`}> 
         <Button onClick={() => dispatch(selectSuite( suite.suite_id))} size="small">En savoir Plus</Button>
         </Link>
+        <Link to={`/reservation`}> 
+                <Button variant="contained" onClick={() => dispatch(selectSuite( suite.suite_id))} size="small">Réserver</Button>
+        </Link>
         </CardActions>
         </Card>
      )}

@@ -86,10 +86,10 @@ export const apiSlice = createApi({
     }),
     createReservation: builder.mutation({
       query(data) {
-        const { suite_id, customer_id, token, body } = data;
+        const { suite_id, user_id, token, body } = data;
         return {
           headers: { Authorization: `Bearer ${token}` },
-          url: `/reservations/${suite_id}/${customer_id}`,
+          url: `/reservations/${suite_id}/${user_id}`,
           method: "POST",
           body,
         };
@@ -105,12 +105,20 @@ export const apiSlice = createApi({
         };
       },
     }),
+    deleteReservation: builder.mutation({
+      query(reservation_id) {
+        return {
+          url: `/reservations/${reservation_id}`,
+          method: "DELETE",
+        };
+      },
+    }),
     getCustomer: builder.query({
       query(data) {
-        const { customer_id, token } = data;
+        const { user_id, token } = data;
         return {
           headers: { Authorization: `Bearer ${token}` },
-          url: `/customers/${customer_id}`,
+          url: `/customers/${user_id}`,
           method: "GET",
         };
       },
@@ -122,6 +130,37 @@ export const apiSlice = createApi({
           url: `/customers`,
           method: "POST",
           body,
+        };
+      },
+    }),
+    createManager: builder.mutation({
+      query(data) {
+        const { body } = data;
+        return {
+          url: `/managers`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getManagers: builder.query({
+      query: () => "/managers",
+    }),
+    updateManager: builder.mutation({
+      query(data) {
+        const { user_id, ...body } = data;
+        return {
+          url: `/managers/manager/${user_id}`,
+          method: "PUT",
+          body,
+        };
+      },
+    }),
+    deleteManager: builder.mutation({
+      query(user_id) {
+        return {
+          url: `/managers/manager/${user_id}`,
+          method: "DELETE",
         };
       },
     }),
@@ -151,8 +190,13 @@ export const {
   useDeleteSuiteMutation,
   useGetReservationsQuery,
   useCreateReservationMutation,
+  useDeleteReservationMutation,
   useGetCustomerReservationsQuery,
   useGetCustomerQuery,
   useCreateCustomerMutation,
+  useCreateManagerMutation,
+  useDeleteManagerMutation,
+  useUpdateManagerMutation,
+  useGetManagersQuery,
   useLoginMutation,
 } = apiSlice;

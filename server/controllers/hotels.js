@@ -49,7 +49,7 @@ export const createHotel = async (req, res) => {
         hotel.address,
         hotel.description,
         hotel.photo,
-        hotel.manger_id,
+        hotel.manager_id,
       ]
     );
     console.log(results);
@@ -83,7 +83,7 @@ export const updateHotel = async (req, res) => {
         hotel.address,
         hotel.description,
         hotel.photo,
-        hotel.manger_id,
+        hotel.manager,
         hotel_id,
       ]
     );

@@ -1,9 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectSuite } from "../reducers/suiteSlice";
-import { useGetCustomerQuery, useGetCustomerReservationsQuery } from "../api/apiSlice";
+import { selectSuite } from "../../../reducers/suiteSlice";
+import { useGetCustomerQuery, useGetCustomerReservationsQuery } from "../../../api/apiSlice";
 import { Grid, Button,  Typography, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper} from '@mui/material';
 import { Link } from "react-router-dom";
+import ReservationDelete from "./ReservationDelete";
+import HotelInfo from "../../hotel/HotelInfo";
 
 const Customer = () => {
     const dispatch = useDispatch();
@@ -11,15 +13,17 @@ const Customer = () => {
     const user = useSelector(state => state.user.user);
     const token = useSelector(state => state.user.token);
 
-    const { data: customers } = useGetCustomerQuery({ customer_id: user.customer_id, token: token });
-    console.log(customers?.data?.customers);
-    const customer = customers?.data?.customers;
-
-    let {data} = useGetCustomerReservationsQuery({ customer_id: user.customer_id, token: token })
+    const { data: customers } = useGetCustomerQuery({ user_id: user.user_id, token: token });
+    console.log(customers?.data?.users);
+    const customer = customers?.data?.users;
+  
+    let {data} = useGetCustomerReservationsQuery({ customer_id: user.user_id, token: token })
     let reservations;
     data ? 
     reservations = data?.data?.reservations : null;   
     reservations ? console.log(reservations) : console.log('non');
+
+   
     return (
         <>
         <h2>Customer page</h2>
@@ -62,11 +66,11 @@ const Customer = () => {
                                                         </TableCell>
                                                         <TableCell align="center" >{reservation.start_date}</TableCell>
                                                         <TableCell align="center"  >{reservation.start_date}</TableCell>
-                                                        <TableCell align="center" >ville</TableCell>
+                                                        <TableCell align="center" ><HotelInfo hotel_id={reservation.city} /></TableCell>
                                                         <TableCell align="center" >{reservation.options}</TableCell>
                                                         <TableCell align="center">{reservation.cost}</TableCell>
                                                         <TableCell align="center"><Link path to="/hotel/suite"><Button onClick={()=>dispatch(selectSuite(reservation.suite_id))}>Voir la suite</Button></Link></TableCell>
-                                                        <TableCell align="center">bouton</TableCell>
+                                                        <TableCell align="center"><ReservationDelete reservation_id={reservation.reservation_id} /></TableCell>
                                                            
 
                                                     </TableRow>

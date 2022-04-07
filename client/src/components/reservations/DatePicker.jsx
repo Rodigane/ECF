@@ -17,7 +17,7 @@ export default function DatePicker() {
   // ! Retrieving Suite_id from the store to request the db
   const suiteId = useSelector(state => state.suite.suite)
   const user = useSelector(state => state.user)
-  const hotel = useSelector(state => state.hotel)
+  const hotel = useSelector(state => state.hotel.hotel)
   console.info(suiteId)
   // ! Fetching data from reservations in the db    
   const { data, isSucces } = useGetReservationsQuery(suiteId);
@@ -65,7 +65,7 @@ export default function DatePicker() {
   const [createReservation, { isLoading: isUpdating }] = useCreateReservationMutation()
 // TODO change the customer_id by a real one
   const handleReservation = () => {
-    createReservation({suite_id : suiteId, customer_id: user.user.customer_id,token: user.token, body: {start_date: value[0], end_date : value[1], option, nb_night, cost, hotel  } })
+    createReservation({suite_id : suiteId, user_id: user.user.user_id,token: user.token, body: {start_date: value[0], end_date : value[1], option, nb_night, cost, hotel  } })
   }
  
   return (

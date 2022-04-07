@@ -6,7 +6,7 @@ import { selectSuite } from "../../reducers/suiteSlice";
 const SuitePicker = () => {
   const dispatch = useDispatch();
   const hotelId = useSelector(state => state.hotel.hotel);
-    
+   const suiteSelected = useSelector(state => state.suite.suite) 
     let { data , isLoading, isSuccess, isError } = useGetSuitesQuery(hotelId);
 
     let suites;
@@ -23,7 +23,7 @@ const SuitePicker = () => {
     id="select-suite"
         label="Suites"
         select
-    value={suite}
+    value={suite || suiteSelected}
     onChange={handleChange}
         helperText="Choississez votre suite"
         SelectProps={{

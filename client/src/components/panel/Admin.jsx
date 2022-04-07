@@ -1,24 +1,22 @@
 import React, {useState} from "react"
 import {Grid, Typography, Box, List, Button, Collapse, ListItemText, ListItemButton, ListItemIcon, Accordion, AccordionDetails, AccordionSummary} from '@mui/material';
-import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useGetHotelsQuery } from '../../api/apiSlice'
-import SuitesList from "./suites/SuitesList";
 import HotelList from "./hotels/HotelList";
 import { useDispatch } from "react-redux";
 import { selectHotel } from '../../reducers/hotelSlice';
 import HotelCreate from "./hotels/HotelCreate";
-
-
+import ManagerCreate from "./managers/ManagersCreate";
+import ManagerList from "./managers/ManagersList";
 const Admin = () => {
   const { data, isLoading, isSuccess, isError } = useGetHotelsQuery();
     
   let hotels;
   isSuccess ? hotels = data.data.hotels : null;
   hotels ? console.log(hotels) : console.log('ras');
-    
+    let [displayTabs, setDisplayTabs] = useState("")
     const dispatch = useDispatch();
-
+ 
 
 
     return (
@@ -46,8 +44,8 @@ const Admin = () => {
         <AccordionDetails>
         <ul>
             {hotels ? hotels.map((hotel) => (
-              <ListItemButton key={hotel.hotel_id} onClick={() => dispatch(selectHotel({ hotel_id: hotel.hotel_id, name: hotel.name, city: hotel.city, address: hotel.address, description: hotel.description, photo: hotel.photo }))}>       
-                <ListItemText  primary={hotel.name} secondary={hotel.city} />
+              <ListItemButton key={hotel.hotel_id} onClick={() => dispatch(selectHotel({ hotel_id: hotel.hotel_id, name: hotel.name, city: hotel.city, address: hotel.address, description: hotel.description, photo: hotel.photo, manager_id: hotel.manager_id })) && setDisplayTabs("hotel")}>       
+              <ListItemText  primary={hotel.name} secondary={hotel.city} />
             </ListItemButton>
             )) 
             : <p>Loading</p>
@@ -84,10 +82,11 @@ const Admin = () => {
           aria-controls="panel1a-content"
           id="panel1a-header"
           >
-        <Typography>Gérants</Typography>
+        <Typography>Managers</Typography>
         </AccordionSummary>
-        <AccordionDetails>
-                                
+                <AccordionDetails>
+                <Button onClick={()=> setDisplayTabs("manager")}>Voir les Managers</Button>   
+                  <ManagerCreate />  
          </AccordionDetails>
         </Accordion>
                         
@@ -98,8 +97,17 @@ const Admin = () => {
         <Box>
             <Typography variant="H2" >  Pannel d'administration </Typography>
         </Box>
-        <Box>
-              <HotelList />               
+            <Box>
+              {
+               displayTabs === "manager" ?
+                  <ManagerList /> :
+                  displayTabs === 'hotel' ?
+                    <HotelList />  
+                    :null
+                  
+              }
+                 
+            
         </Box>
         </Grid>
     </Grid>    

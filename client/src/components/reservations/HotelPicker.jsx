@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { TextField, Box, MenuItem } from "@mui/material";
-import { useGetHotelsQuery } from "../../api/apiSlice";
-import { useDispatch } from "react-redux";
+import { useGetHotelsQuery, useGetHotelQuery } from "../../api/apiSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { selectHotel } from "../../reducers/hotelSlice";
+import { useSelect } from "@mui/base";
 
 const HotelPicker = () => {
 
@@ -10,8 +11,14 @@ const HotelPicker = () => {
     let { data , isLoading, isSuccess, isError } = useGetHotelsQuery();
     let hotels;
     isSuccess ? hotels = data.data.hotels : null; 
-    
-    const [hotel, setHotel] = useState("")
+   const  hotelSelect = useSelector(state => state.hotel.hotel)
+  console.log('coucou')
+  console.log(hotelSelect);
+  const [hotel, setHotel] = useState("")
+  if (hotelSelect !== null) {
+  // setHotel(hotelSelect)
+  } 
+
     const handleChange = (event) => {
       setHotel(event.target.value) 
       dispatch(selectHotel(event.target.value))
@@ -22,7 +29,7 @@ const HotelPicker = () => {
     id="select-hotel"
         label="Hotel"
         select
-    value={hotel}
+    value={hotel || hotelSelect}
     onChange={ handleChange}
       helperText="Choississez votre établissement"
       SelectProps={{

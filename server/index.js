@@ -9,6 +9,7 @@ import suiteRoutes from "./routes/suite.js";
 import reservationRoutes from "./routes/reservation.js";
 import customersRoutes from "./routes/customers.js";
 import authRoutes from "./routes/auth.js";
+import managersRoutes from "./routes/managers.js";
 
 const app = express();
 const corsOptions = { credentials: true, origin: process.env.URL || "*" };
@@ -28,6 +29,7 @@ app.use("/api/v1/suites", suiteRoutes);
 app.use("/api/v1/reservations", reservationRoutes);
 app.use("/api/v1/customers", customersRoutes);
 app.use("/api/v1/login", authRoutes);
+app.use("/api/v1/managers", managersRoutes);
 
 app.use(cookieParser());
 

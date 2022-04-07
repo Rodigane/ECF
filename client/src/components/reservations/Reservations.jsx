@@ -16,8 +16,7 @@ const Reservation = () => {
             <Box  sx={{display:'flex', justifyContent:'center'}}>
             <HotelPicker />
             <SuitePicker />
-                <DatePicker />
-                
+            <DatePicker />
             </Box>
             <Box>
             { suiteId ? <Suite /> : null}

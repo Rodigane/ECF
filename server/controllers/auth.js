@@ -8,10 +8,9 @@ export const login = async (req, res) => {
     console.log(req.body);
     const { email, password } = req.body;
     console.log(password);
-    const results = await db.query(
-      "SELECT * FROM  customers WHERE email = $1",
-      [email]
-    );
+    const results = await db.query("SELECT * FROM  users WHERE email = $1", [
+      email,
+    ]);
     if (results.rows.length === 0)
       return res.Status(401).json({ error: "Email est incorrect" });
     const validPassword = await bcrypt.compare(
@@ -24,7 +23,7 @@ export const login = async (req, res) => {
     res.cookie("refresh_token", tokens.refreshToken, { httpOnly: true });
     res.json({
       tokens: tokens,
-      customers: results.rows[0],
+      users: results.rows[0],
     });
     res.json(results.rows[0]);
   } catch (error) {

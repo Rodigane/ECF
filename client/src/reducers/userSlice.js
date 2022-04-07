@@ -3,10 +3,11 @@ import { apiSlice } from "../api/apiSlice";
 
 const initialState = {
   user: {
-    customer_id: null,
+    user_id: null,
     name: null,
     first_name: null,
     email: null,
+    role: null,
   },
   token: null,
 };
@@ -24,10 +25,10 @@ export const userSlice = createSlice({
         console.log("fulfilled", action.payload);
         state.token = action.payload.tokens.accessToken;
         state.user = {
-          customer_id: action.payload.customers.customer_id,
-          name: action.payload.customers.name,
-          first_name: action.payload.customers.first_name,
-          email: action.payload.customers.email,
+          user_id: action.payload.users.user_id,
+          name: action.payload.users.name,
+          first_name: action.payload.users.first_name,
+          email: action.payload.users.email,
         };
       }
     );
