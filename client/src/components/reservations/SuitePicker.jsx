@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Box, MenuItem } from "@mui/material";
+import { Select,FormControl, InputLabel, Grid, MenuItem } from "@mui/material";
 import { useGetSuitesQuery } from "../../api/apiSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { selectSuite } from "../../reducers/suiteSlice";
@@ -18,24 +18,26 @@ const SuitePicker = () => {
     };
   
 
-    return (
-    <TextField
+  return (
+      <Grid container justifyContent="flex-start" >
+      <FormControl fullWidth>
+    <InputLabel id="select-suite">Suites</InputLabel>
+   <Select
     id="select-suite"
-        label="Suites"
-        select
+    label="Suites"  
+    select
     value={suite || suiteSelected}
     onChange={handleChange}
-        helperText="Choississez votre suite"
-        SelectProps={{
-          native: true,
-        }}
-    >
-    {suites ? suites.map((suite) => (
-      <option key={suite.suite_id} value={suite.suite_id}>
-        {suite.title} 
-      </option>
-    )) : null}
-      </TextField>
+    helperText="Choississez votre suite"
+      >
+        {suites ? suites.map((option) => (
+        <MenuItem key={option.suite_id} value={option.suite_id}>
+       {option.title} 
+        </MenuItem>
+          ))  : null}
+    </Select>
+    </FormControl>  
+      </Grid>
     )
     }
              

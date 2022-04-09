@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Box, MenuItem } from "@mui/material";
+import { TextField, Box, MenuItem, Grid, Select, InputLabel, FormControl } from "@mui/material";
 import { useGetHotelsQuery, useGetHotelQuery } from "../../api/apiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectHotel } from "../../reducers/hotelSlice";
@@ -24,24 +24,26 @@ const HotelPicker = () => {
       dispatch(selectHotel(event.target.value))
     };
 
-  return(
-    <TextField
+  return (
+    <Grid container justifyContent="flex-end">
+    <FormControl fullWidth>
+    <InputLabel id="hotel">Hotel</InputLabel>
+   <Select
     id="select-hotel"
-        label="Hotel"
-        select
+    label="Hotel"
+    select
     value={hotel || hotelSelect}
     onChange={ handleChange}
-      helperText="Choississez votre établissement"
-      SelectProps={{
-        native: true,
-      }}
-    >
-      {hotels ? hotels.map((option) => (
-        <option key={option.hotel_id} value={option.hotel_id} city={option.city} >
-          {option.name} - {option.city}
-        </option>
-      )) : null}
-    </TextField>
+    helperText="Choississez votre établissement"
+      >
+        {hotels ? hotels.map((option) => (
+        <MenuItem key={option.hotel_id} value={option.hotel_id} city={option.city}>
+        {option.name} - {option.city}
+        </MenuItem>
+          ))  : null}
+    </Select>
+    </FormControl>  
+      </Grid>
   )
     }
              

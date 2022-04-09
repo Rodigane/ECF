@@ -21,7 +21,7 @@ export default function HotelEdit() {
   };
 
   const hotel = useSelector(state => state.hotel.hotel);
-
+  const userRole = useSelector(state => state.user.user.role)
   const [name, setName] = useState(hotel.name);
   const onNameChange = e => setName(e.target.value);
   const [city, setCity] = useState(hotel.city);
@@ -101,6 +101,7 @@ export default function HotelEdit() {
             value={photo}
             onChange={onPhotoChange}
           />
+          {userRole === 'manager' ? null :
           <TextField
             margin="dense"
             id="manager"
@@ -110,7 +111,7 @@ export default function HotelEdit() {
             value={manager}
             onChange={onManagerChange}
           />
-
+          }
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

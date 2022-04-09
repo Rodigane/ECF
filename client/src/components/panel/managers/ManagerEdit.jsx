@@ -9,7 +9,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ManagerEdit(user) {
-  
+
+  const userRole = useSelector(state => state.user.user.role)
   const { data, isLoading, isSuccess, isError } = useGetHotelsQuery(); 
   let hotels;
   isSuccess ? hotels = data.data.hotels : null;
@@ -86,7 +87,7 @@ export default function ManagerEdit(user) {
           value={email}
           fullWidth
           onChange={onEmailChange}
-        />
+          />
           <InputLabel id="role">Role</InputLabel>
           <Select
           margin="dense"
@@ -115,7 +116,8 @@ export default function ManagerEdit(user) {
            { hotels?.map(hotel =>
             <MenuItem key={hotel?.hotel_id} value={hotel?.hotel_id}>{hotel?.city}-{hotel?.name}</MenuItem>
             )} 
-          </Select>
+              </Select>
+         
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">

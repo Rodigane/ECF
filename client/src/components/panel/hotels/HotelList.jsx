@@ -5,8 +5,7 @@ import SuitesList from '../suites/SuitesList';
 import HotelDelete from './HotelDelete';
 const HotelList = () => {
     const hotel = useSelector(state => state.hotel.hotel)
-    console.log(hotel)
-   
+    const userRole = useSelector(state => state.user.user.role)
     return (
         <>
         <Typography variant="h3" align="center">
@@ -25,7 +24,10 @@ const HotelList = () => {
                             <TableCell align="center">Photo</TableCell>
                             <TableCell align="center">Description</TableCell>
                             <TableCell align="center">Hotel ID</TableCell>
+                            { userRole === "manager" ? null :
                             <TableCell align="center">Manager ID</TableCell>
+                            }
+                            
                         </TableRow>
                     </TableHead>
                             <TableBody >
@@ -42,7 +44,9 @@ const HotelList = () => {
                                 <TableCell align="center" noWrap="true" sx={{ maxWidth: "100px", overflow: "hidden", textOverflow: 'ellipsis' }}>{hotel.photo}</TableCell>
                                 <TableCell align="center" noWrap="true" sx={{ maxWidth: "100px", overflow: "hidden", textOverflow: 'ellipsis' }}>{hotel.description}</TableCell>
                                 <TableCell align="center">{hotel.hotel_id}</TableCell>
-                                <TableCell align="center">{hotel.manager_id}</TableCell>
+                                {userRole === "manager" ? null :
+                                <TableCell align="center">{hotel.manager_id}</TableCell>   
+                                }
                                 <TableCell align="center"><HotelEdit /></TableCell>
                                 <TableCell align="center"><HotelDelete /></TableCell>
 

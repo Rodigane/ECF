@@ -7,6 +7,10 @@ import { Link } from "react-router-dom";
 import ReservationDelete from "./ReservationDelete";
 import HotelInfo from "../../hotel/HotelInfo";
 
+import frLocale from 'date-fns/locale/fr';
+import format from 'date-fns/format';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+
 const Customer = () => {
     const dispatch = useDispatch();
 
@@ -64,8 +68,8 @@ const Customer = () => {
                                                         <TableCell component="th" scope="row" sx={{ maxWidth: "150px" }}>
                                                            coucou
                                                         </TableCell>
-                                                        <TableCell align="center" >{reservation.start_date}</TableCell>
-                                                        <TableCell align="center"  >{reservation.start_date}</TableCell>
+                                                        <TableCell align="center" >{format(new Date(reservation.start_date),"dd-MM-yyyy")}</TableCell>
+                                                        <TableCell align="center"  >{format(new Date(reservation.end_date),"dd-MM-yyyy")}</TableCell>
                                                         <TableCell align="center" ><HotelInfo hotel_id={reservation.city} /></TableCell>
                                                         <TableCell align="center" >{reservation.options}</TableCell>
                                                         <TableCell align="center">{reservation.cost}</TableCell>

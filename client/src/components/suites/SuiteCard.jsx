@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { selectSuite } from '../../reducers/suiteSlice';
 
+
  const SuiteCard = ({suite}) => {
   const dispatch = useDispatch();
 

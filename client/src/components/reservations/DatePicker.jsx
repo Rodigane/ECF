@@ -2,11 +2,11 @@ import  React, { useState, useEffect } from 'react';
 import DateRangePicker from '@mui/lab/DateRangePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import {Box, TextField, Button } from '@mui/material';
+import {Box, TextField, Button, Typography, Grid } from '@mui/material';
 import frLocale from 'date-fns/locale/fr';
 import format from 'date-fns/format';
 import { useSelector, useDispatch } from 'react-redux';
-import { useGetReservationsQuery, useCreateReservationMutation } from '../../api/apiSlice';
+import { useGetReservationsQuery, useCreateReservationMutation, useGetSuiteQuery } from '../../api/apiSlice';
 
 
 export default function DatePicker() {
@@ -18,66 +18,119 @@ export default function DatePicker() {
   const suiteId = useSelector(state => state.suite.suite)
   const user = useSelector(state => state.user)
   const hotel = useSelector(state => state.hotel.hotel)
-  console.info(suiteId)
+ 
+  
   // ! Fetching data from reservations in the db    
   const { data, isSucces } = useGetReservationsQuery(suiteId);
   let reservations;
-  data ? reservations = data.data.reservations : null;
- 
-
-// TODO  Calculate the number of night, and the cost (suite.price * nb_night) / Create an array with the reserved date
+  reservations = data?.data?.reservations;
+  let price;
+  const { data: suite, isSuccess : suiteSuccess } = useGetSuiteQuery(suiteId);
+  suiteSuccess ? price = suite.data.suites.price : null ;
+  
+    // TODO  Calculate the number of night, and the cost (suite.price * nb_night) / Create an array with the reserved date
     //TODO   Compare the selected date with the array of reserved date, if !== we can dispatch the reservation if not error
-    const nb_night = 3;
-    const cost = 99;
-  // ? function that return an array with all the dates from the first day to the last day
-  // ? excluding the last day
+    let nb_night = 0;
+    let cost;
+  
+  // !    --------------------------------   {getDatesInRange}   ----------------------------          !//
+  // ! function that return an array [dates] with all the dates between the first day and the last day !//
+  // ! -------------------------------- excluding the last day -------------------------------         !//
   const getDatesInRange = (startDate, endDate) => {
     const date = new Date(startDate);
     const endD = new Date(endDate);
     const dates = [];
-    
-    // ! the result of my function were on day ahead, so i fixe that with thoses two lines
-    date.setDate(date.getDate() - 1);
-    endD.setDate(endD.getDate() - 1);
-
     while (date < endD) {
       dates.push(new Date(date).getTime());
       date.setDate(date.getDate() + 1);
     }
-  
     return dates;
   }
-  let dateRaw = [];
-  // ! Here the function to exclude certain date from the datepicker
-  const DateReserved = (date) => {
-   
-    reservations ?
-      reservations.map(reservation => 
-        
-          dateRaw = dateRaw.concat(getDatesInRange(new Date(reservation.start_date), new Date(reservation.end_date)))
-      ) : null
- //   console.log(dateRaw.map(date => format(new Date(date),"yyyy-MM-dd")))
-    return dateRaw.includes(date.getTime());  
-  }
+  // !    -------------------------------------------------------------------------------   !//
 
-  //reservations ? reservations.map(reservation => console.log(reservation)) : null;
+  // !    --------------------------------   {getDatesReserved}   ----------------------------  !//
+  // ! for each reservations we use the function 'getDatesInRange' to retrieve the dates where the room is booked !//
+  // ! and we concat the result in the array [reservedDate]. [ReservedDate] now contained all the date where the room is booked !//
+  let reservedDate = [];
+  const getDatesReserved = () => {
+    reservations?.map(reservation => reservedDate =  reservedDate.concat(getDatesInRange(reservation.start_date, reservation.end_date)))
+    //reservations?.map(reservation =>console.log(reservation.start_date))
+    reservedDate = reservedDate.map(date => format(new Date(date), "yyyy-MM-dd"));
+    return reservedDate;
+  }
+  // !    -------------------------------------------------------------------------------   !//
+  
+  // ? If we find some reservations for the selected suites we call the function getDatesReserved.
+  reservations ? getDatesReserved() : console.log('No reservations');
+  //reservedDate = reservedDate.map(date => format(new Date(date), "yyyy-MM-dd"));
+
+  // !    -------------------------------   {dateToDisabled}   ---------------------------  !//
+  // ! Here the function to exclude date from the array [reservedDate] from  the datepicker !//
+  // !                     Must return TRUE to the props shouldDisableDate                  !//
+  // ! We compare the date from [reservedDate] with 'date' comming from the dataRangePicker !//
+  const dateToDisabled = (date) => {
+    //console.log(format(new Date(date), "yyyy-MM-dd"))
+    return reservedDate.includes(format(new Date(date), "yyyy-MM-dd"));
+  }
+  // !    ---------------------------   {findCommonElement}   ---------------------------  !//
+ 
+  const findCommonElement = (array1, array2) => {
+    // Loop for array1
+    for(let i = 0; i < array1.length; i++) {
+        // Loop for array2
+        for(let j = 0; j < array2.length; j++) {
+            // Compare the element of each and
+            // every element from both of the
+            // arrays
+            if(array1[i] === array2[j]) {
+                // Return if common element found
+                return true;
+            }
+        }
+    }
+    // Return if no common element exist
+    return false;
+}
+  // !    -------------------------------     {verifyDate}     ---------------------------  !//
+  // !    --------------------------     return TRUE if dates available     --------------  !//
+  const verifyDate = (startDate, endDate) => {
+  // we're looking for the date the customer wish to reserve.
+    let dateWanted = getDatesInRange(new Date(startDate).getTime(),new Date(endDate).getTime());
+    dateWanted = dateWanted.map((date => format(new Date(date), "yyyy-MM-dd")));
+    console.log(dateWanted.length)
+  // we're comparing those dates to the dates allready reserved
+    if (findCommonElement(dateWanted, reservedDate)) {
+      return false
+    } else {
+           return true  
+           };
+  }
+  // !    -------------------------------------------------------------------------------   !//
+  if (value[0] && value[1] !== null) {
+    nb_night = getDatesInRange(value[0], value[1]).length;
+    cost = nb_night * price;
+  }
   // ! Handle Reservation
   const [createReservation, { isLoading: isUpdating }] = useCreateReservationMutation()
-// TODO change the customer_id by a real one
   const handleReservation = () => {
-    createReservation({suite_id : suiteId, user_id: user.user.user_id,token: user.token, body: {start_date: value[0], end_date : value[1], option, nb_night, cost, hotel  } })
+    if (verifyDate(value[0], value[1])) {
+      createReservation({suite_id : suiteId, user_id: user.user.user_id,token: user.token, body: {start_date: format(new Date(value[0]), "yyyy-MM-dd"), end_date : format(new Date(value[1]), "yyyy-MM-dd"), option, nb_night, cost, hotel  } })
+    } else {
+      alert('Date non disponible, veuillez choisir d\'autres dates ou une autre suite')
+    }
+    
   }
  
   return (
-   <> 
-    <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale} >
-     
+   <Grid container direction="column" alignItems="center" spacing={3}> 
+     <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale} >
+     <Grid item xs={12} md={6}>
       <DateRangePicker
         disablePast
         startText="Date d'arrivée"
         endText="Date du départ"
         value={value}
-        shouldDisableDate={DateReserved}
+        shouldDisableDate={dateToDisabled}
         toolbarTitle="Selectionner vos dates de séjours"
         onChange={(newValue) => {
           setValue(newValue);
@@ -91,22 +144,36 @@ export default function DatePicker() {
           </React.Fragment>
         )}
         
-      />
-        {console.log(new Date(value[0]).getTime())}
-        {console.log(new Date(value[1]).getTime())}
+          />
+          </Grid>
+        {/**console.log(new Date(value[0]))}
+        {console.log(new Date(value[1]))*/}
       </LocalizationProvider>
-      
-      <TextField
+      <Grid item>
+        <TextField
+           
           autoFocus
           margin="dense"
           id="option"
+          multiline
+          maxRows={4}
           label="commentaires"
           type="text"
           fullWidth
           value={option}
           onChange={onOptionChange}
         />
-    <Button variant="contained" onClick={handleReservation} >Valider</Button>
-</>
+      </Grid>
+      <Grid item>
+      { 
+          nb_night === 1 ? <Typography variant="p">prix pour {nb_night} nuit : {cost} € </Typography> :
+          nb_night > 1 ? <Typography variant="p">prix pour {nb_night} nuits : {cost} € </Typography> :
+          null
+      }
+      </Grid>
+      <Grid item >
+      <Button variant="contained" onClick={handleReservation} >Valider</Button>
+        </Grid>
+</Grid>
   );
 }

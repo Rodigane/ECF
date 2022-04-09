@@ -5,13 +5,21 @@ import Desktoplogo  from '../assets/logos/logo3.png'
 import Mobilelogo from '../assets/logos/logo.png'
 import Mobilelogo2 from '../assets/logos/logo2.png'
 import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 
-const pages = ['Nos établissements', 'Contact', 'Mon compte']
-//const pages = [{ title: 'Nos établissements', link: 'etablissements'},{title:'Contact', link : 'contact'},{title: 'Connexion', link : 'customer'}]
+
 
 const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
+
+    const user = useSelector(state => state.user.token);
+    const role = useSelector(state => state.user.user.role)
+    const panel = role === 'admin' ? 'admin' : role === 'manager' ? 'manager': role === 'customer' ? 'moncompte' : null;
+    let account;
+    user ? account = { title: 'Mon compte', link: panel } : account = { title: 'Se connecter', link: 'signin' }
+
+    const pages = [{ title: 'Nos établissements', link: 'hotels' }, {title:'Contact', link:'contact'}, account]
     const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
     };
@@ -75,24 +83,28 @@ const Navbar = () => {
                             }}
                         >
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
+                                <Link to={page.link}>
+                                <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">{page.title}</Typography>
+                                    </MenuItem>
+                                    </Link>
                             ))}
                             </Menu>
                     </Box>
                     
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent:'flex-end' }}>
                         {pages.map((page) => (
+                            <Link to={page.link}> 
                         <Button
                             key={page}
                             onClick={handleCloseNavMenu}
                             sx={{ my: 2, color:'black', display: 'block' }}
                         >
-                                { //     <Link to={page.link}>    {page.title}</Link>
-                                }
-                                {page}
-                        </Button>
+                                         {page.title}
+                                
+                             
+                                </Button>
+                                </Link>
                         ))}
                     </Box>
 

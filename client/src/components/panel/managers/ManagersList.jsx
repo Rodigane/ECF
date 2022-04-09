@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useGetManagersQuery } from '../../../api/apiSlice';
 import ManagerDelete from './ManagerDelete';
 import ManagerEdit from './ManagerEdit';
-
+import HotelInfo from '../../hotel/HotelInfo';
 
 export default function ManagersList() {
   let { data, isSuccess } = useGetManagersQuery();
@@ -42,7 +42,7 @@ export default function ManagersList() {
                     <TableCell align="center">{manager.first_name}</TableCell>
                     <TableCell align="center">{manager.email}</TableCell>
                     <TableCell align="center">{manager.role}</TableCell>
-                    <TableCell align="center">{manager?.hotel_id}</TableCell>
+                    <TableCell align="center"><HotelInfo hotel_id={manager?.hotel_id}/></TableCell>
                     <TableCell align="center"><ManagerEdit user={manager}/></TableCell>
                     <TableCell align="center"><ManagerDelete userId={manager} /></TableCell>
 

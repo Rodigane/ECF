@@ -22,7 +22,7 @@ export const getCustomer = async (req, res) => {
 export const createCustomer = async (req, res) => {
   const user = req.body;
   try {
-    const hashedPassword = await bcrypt.hash(customer.password, 10);
+    const hashedPassword = await bcrypt.hash(user.password, 10);
     const results = await db.query(
       "INSERT INTO users (name, first_name, email, password) values ($1, $2, $3, $4) returning *",
       [user.name, user.first_name, user.email, hashedPassword]

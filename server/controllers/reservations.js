@@ -3,8 +3,8 @@ import db from "../db/index.cjs";
 export const getReservations = async (req, res) => {
   try {
     const results = await db.query(
-      "select * from reservations where reservation_id = $1",
-      [req.params.reservation_id]
+      "select * from reservations where suite_id = $1",
+      [req.params.suite_id]
     );
     console.log(results.rows);
     res.status(200).json({

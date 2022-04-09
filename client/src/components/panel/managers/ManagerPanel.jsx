@@ -1,17 +1,25 @@
 import React, {useState} from "react"
 import {Grid, Typography, Box, List, Button, Collapse, ListItemText, ListItemButton, ListItemIcon, Accordion, AccordionDetails, AccordionSummary} from '@mui/material';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { useDispatch } from "react-redux";
-import { useGetSuitesQuery } from "../../../api/apiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useGetSuitesQuery, useGetHotelQuery } from "../../../api/apiSlice";
+import { selectHotel } from "../../../reducers/hotelSlice";
 import SuitesList from "../suites/SuitesList";
+import HotelList from "../hotels/HotelList";
+
 const ManagerPanel = () => {
+    const dispatch = useDispatch();
+    const hotelId = useSelector(state => state.user.user.hotel_id)
+    console.log(hotelId)
+    let { data : hotel, isSuccess : hotelIsSuccess } = useGetHotelQuery(hotelId);
+    const hotelDetails = hotel?.data?.hotels;
 
-
-    let { data , isLoading, isSuccess, isError } = useGetSuitesQuery(6);
+    console.log(hotelId)
+    let { data , isLoading, isSuccess, isError } = useGetSuitesQuery(hotelId);
     let suites;
-    isSuccess ? 
-      suites = data.data.suites : null;   
-      suites ? console.log(suites) : console.log('non');
+    
+      suites = data?.data?.suites;   
+    
     return (
         <>
         <Grid
@@ -32,30 +40,25 @@ const ManagerPanel = () => {
              aria-controls="panel2a-content"
              id="panel2a-header"
             >
-        <Typography>Suites</Typography>
+        <Typography>Mon établissement</Typography>
         </AccordionSummary>
             <AccordionDetails>
                 <ul>
-                  {suites ? suites.map((suite) => (
-                    <ListItemButton  key={suite.suite_id} onClick={() => dispatch(selectSuite( suite.suite_id ))}>       
-                        <ListItemText  primary={suite.title}  />
-                    </ListItemButton>
-                    )) 
-                    : <p>Loading</p>
-                    }
+                <ListItemButton  key={hotelDetails?.hotel_id} onClick={() => dispatch(selectHotel({ hotel_id: hotelDetails.hotel_id, name: hotelDetails.name, city: hotelDetails.city, address: hotelDetails.address, description: hotelDetails.description, photo: hotelDetails.photo }))}>       
+                        <ListItemText  primary={hotelDetails?.name} secondary={hotelDetails?.city} />
+                </ListItemButton>
                 </ul>
-        </AccordionDetails>
-                        </Accordion>
-                        
+            </AccordionDetails>
+        </Accordion>
         </List>
-                 
         </Grid>
             <Grid item md={10} sx={{backgroundColor:'red'}}>
         <Box>
             <Typography variant="H2" >  Pannel d'administration </Typography>
         </Box>
-            <Box>                     
-                 
+        <Box>                     
+                <HotelList />
+                         
         </Box>
         </Grid>
     </Grid>    

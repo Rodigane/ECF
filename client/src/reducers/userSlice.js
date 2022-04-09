@@ -29,6 +29,8 @@ export const userSlice = createSlice({
           name: action.payload.users.name,
           first_name: action.payload.users.first_name,
           email: action.payload.users.email,
+          role: action.payload.users.role,
+          hotel_id: action.payload.users.hotel_id,
         };
       }
     );
