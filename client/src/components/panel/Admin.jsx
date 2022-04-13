@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import {Grid, Typography, Box, List, Button, Collapse, ListItemText, ListItemButton, ListItemIcon, Accordion, AccordionDetails, AccordionSummary} from '@mui/material';
+import {Grid, Typography, Box, List, Button, ListItemText, ListItemButton,  Container, Accordion, AccordionDetails, AccordionSummary} from '@mui/material';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useGetHotelsQuery } from '../../api/apiSlice'
 import HotelList from "./hotels/HotelList";
@@ -8,6 +8,8 @@ import { selectHotel } from '../../reducers/hotelSlice';
 import HotelCreate from "./hotels/HotelCreate";
 import ManagerCreate from "./managers/ManagersCreate";
 import ManagerList from "./managers/ManagersList";
+
+
 const Admin = () => {
   const { data, isLoading, isSuccess, isError } = useGetHotelsQuery();
     
@@ -20,16 +22,11 @@ const Admin = () => {
 
 
     return (
-        <>
-        <Grid
-        container
-        justifyContent="center"
-        alignItems="stretch"
-        >
-        <Grid item md={2}  alignItems="stretch"  sx={{backgroundColor:'pink', height:"80vh", textAlign:"center"}}>
-            ADMIN MENU
+        <Container maxWidth='xl'>
+        <Grid container  spacing={2}>
+        <Grid item xs={12} md={2} mt={2}>
+         <Typography component="h2" variant="h5" align="center"> ADMIN MENU</Typography>  
             <List
-              sx={{ width: '100%', maxWidth: 360}}
               component="nav"
               aria-labelledby="nested-list-subheader"
             > 
@@ -55,32 +52,13 @@ const Admin = () => {
         </ul>
 
         </AccordionDetails>
-        </Accordion>
-        <Accordion>
-            <AccordionSummary
-            expandIcon={<ExpandMore />}
-             aria-controls="panel2a-content"
-             id="panel2a-header"
-            >
-        <Typography>Suites</Typography>
-        </AccordionSummary>
-            <AccordionDetails>
-                <ul>
-                  {hotels ? hotels.map((hotel) => (
-                    <ListItemButton  key={hotel.hotel_id} onClick={() => dispatch(selectHotel( hotel.hotel_id ))}>       
-                        <ListItemText  primary={hotel.name} secondary={hotel.city} />
-                    </ListItemButton>
-                    )) 
-                    : <p>Loading</p>
-                                    }
-                </ul>
-        </AccordionDetails>
-                        </Accordion>
-                        <Accordion>
+              </Accordion>
+              
+        <Accordion >
         <AccordionSummary
           expandIcon={<ExpandMore />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
+          aria-controls="panel2a-content"
+          id="panel2a-header"
           >
         <Typography>Managers</Typography>
         </AccordionSummary>
@@ -93,25 +71,25 @@ const Admin = () => {
         </List>
                  
         </Grid>
-            <Grid item md={10} sx={{backgroundColor:'red'}}>
-        <Box>
-            <Typography variant="H2" >  Pannel d'administration </Typography>
-        </Box>
-            <Box>
+          <Grid item xs={12} md={10}>
+            <Container>
+            
               {
                displayTabs === "manager" ?
                   <ManagerList /> :
                   displayTabs === 'hotel' ?
                     <HotelList />  
-                    :null
+                    :
+                    <Typography variant="h2" mt={4} align="center" >  Pannel d'administration </Typography>
+
                   
               }
                  
-            
-        </Box>
+                </Container>
         </Grid>
-    </Grid>    
-        </>
+        </Grid>
+        
+        </Container>
     )
 }
 

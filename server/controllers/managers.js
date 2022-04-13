@@ -8,7 +8,7 @@ export const getManager = async (req, res) => {
     ]);
     console.log(results.rows);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         users: results.rows[0],
@@ -26,7 +26,7 @@ export const getManagers = async (req, res) => {
     );
     console.log(results.rows);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         users: results.rows,
@@ -55,13 +55,16 @@ export const createManager = async (req, res) => {
     );
     console.log(results);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         users: results.rows[0],
       },
     });
   } catch (error) {
+    res.status(400).json({
+      status: "error",
+    });
     console.error(error);
   }
 };
@@ -75,6 +78,9 @@ export const deleteManager = async (req, res) => {
     ]);
     res.status(200).json(console.log("delete successfull"));
   } catch (error) {
+    res.status(400).json({
+      status: "error",
+    });
     console.error(error);
   }
 };
@@ -91,13 +97,16 @@ export const updateManager = async (req, res) => {
     );
     console.log(results);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         users: results.rows[0],
       },
     });
   } catch (error) {
+    res.status(400).json({
+      status: "error",
+    });
     console.error(error);
   }
 };

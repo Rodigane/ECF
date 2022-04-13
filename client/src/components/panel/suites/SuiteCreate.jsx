@@ -10,7 +10,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function SuiteCreate(hotelId) {
   
- console.log(hotelId.hotel)
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

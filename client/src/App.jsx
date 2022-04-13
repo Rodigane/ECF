@@ -1,7 +1,7 @@
 import CssBaseline from '@mui/material/CssBaseline';
 import { Routes, Route } from 'react-router-dom';
 import './App.css'
-import { Box } from '@mui/system';
+import { Box, Snackbar, Alert } from "@mui/material";
 // TODO index of components
 import Admin from './components/panel/Admin';
 import Contact from './components/Contact';
@@ -24,10 +24,10 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import frLocale from 'date-fns/locale/fr';
 
 
-
 function App() {
-  
 
+  
+  
   return (
     <div className="App">
        <Box
@@ -43,16 +43,28 @@ function App() {
         </div>
         <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale} >
 
-        <div className="main">
+        <div className="main" >
           <Routes>
             <Route exact element={<Home />} path="/"></Route>
             <Route exact element={<Hotels />} path="/hotels"></Route>
             <Route exact element={<Hotel  />} path="/hotel/:city"></Route>
             <Route exact element={<Suites />} path="/hotel/suites"></Route>
             <Route exact element={<Suite />} path="/hotel/suite"></Route>
-            <Route exact element={<Customer />} path="/moncompte"></Route>
-            <Route exact element={<Admin />} path="/admin"></Route>
-            <Route exact element={<ManagerPanel />} path="/manager"></Route>
+              <Route exact element={
+                <PrivateRoute>
+                <Customer />
+               </PrivateRoute>
+                } path="/moncompte"></Route>
+              <Route exact element={
+                <PrivateRoute>
+                <Admin />
+               </PrivateRoute>
+                } path="/admin"></Route>
+              <Route exact element={
+                <PrivateRoute>
+               <ManagerPanel />
+              </PrivateRoute>
+                } path="/manager"></Route>
             <Route exact element={<Contact />} path="/contact"></Route>
             <Route exact element={<SignUp />} path="/signup"></Route>
             <Route exact element={<SignIn />} path="/signin"></Route>
@@ -65,8 +77,10 @@ function App() {
             />
             {/**<Route exact element={<Reservation />} path="/reservation"></Route> */}  
         </Routes>
+            
           </div>
-          </LocalizationProvider>
+        </LocalizationProvider>
+        
         <div className='footer'>
           <Footer />
         </div>

@@ -1,27 +1,51 @@
 import React, { useState } from 'react';
-import { Avatar, Button, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container } from '@mui/material';
+import { Avatar, Button, TextField, FormControlLabel, Checkbox, Grid, Box, Typography, Container } from '@mui/material';
+import { NavLink, useNavigate } from "react-router-dom";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useCreateCustomerMutation } from '../api/apiSlice';
+import { useSelector } from 'react-redux';
 
-export default function SignUp() {
+const SignUp = () => {
 
-  const [createCustomer, { isLoading: isUpdating }] = useCreateCustomerMutation()
-  const [name, setName] = useState("");
+  const navigate = useNavigate();
+  const userLocation = useSelector(state => state.auth.auth);
+  const [createCustomer, { isSuccess, error }] = useCreateCustomerMutation()
+  const [name, setName] = useState(null);
   const onNameChange = e => setName(e.target.value);
-  const [first_name, setFirstName] = useState("");
+  const [first_name, setFirstName] = useState(null);
   const onFirstNameChange = e => setFirstName(e.target.value);
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState(null)
   const onEmailChange = e => setEmail(e.target.value);
-  const [password, setPassword] = useState("")
+  const [password, setPassword] = useState(null)
   const onPasswordChange = e => setPassword(e.target.value);
 
-  
+  const checkData = () => {
+    if (name.length < 2 || name.length > 30) {
+      alert('le Nom doit contenir  entre 3 et 3O lettres');
+      return false;
+    }
+    if (password.length < 2 || password.length > 30) {
+      alert('le Nom doit contenir  entre 3 et 3O lettres');
+      return false;
+    }
+  }
   
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (checkData() === false) { return;};
     createCustomer({ body: { name, first_name, email, password } });
   }
   
+  if (isSuccess) { 
+   const origin = userLocation || '/';
+   navigate(origin);
+  }
+
+  if (error) {
+   alert('Erreur lors de l\'envoi du formulaire')
+    navigate('/signup')
+    
+  };
 
   return (
 
@@ -35,13 +59,13 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: '#E2DFA2' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Créer un compte
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form"  noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
               <TextField  
@@ -51,7 +75,8 @@ export default function SignUp() {
                   fullWidth
                   id="first_name"
                   label="Prénom"
-                  autoFocus
+                autoFocus
+                sx={{bgcolor: 'transparent'}}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -97,20 +122,22 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor:'#92AAC7', color:'black'  }}
             >
               S'enregistrer
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/signin" variant="body2">
+                <NavLink to="/signin" variant="body2">
                   Déjà un compte? connectez vous
-                </Link>
+                </NavLink>
               </Grid>
             </Grid>
           </Box>
-        </Box>
+      </Box>
       </Container>
 
   );
 }
+
+export default SignUp

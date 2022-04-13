@@ -2,14 +2,14 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectSuite } from "../../../reducers/suiteSlice";
 import { useGetCustomerQuery, useGetCustomerReservationsQuery } from "../../../api/apiSlice";
-import { Grid, Button,  Typography, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper} from '@mui/material';
-import { Link } from "react-router-dom";
+import { Grid, Button,  Typography, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container} from '@mui/material';
+import { NavLink } from "react-router-dom";
 import ReservationDelete from "./ReservationDelete";
 import HotelInfo from "../../hotel/HotelInfo";
 
-import frLocale from 'date-fns/locale/fr';
+
 import format from 'date-fns/format';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+
 
 const Customer = () => {
     const dispatch = useDispatch();
@@ -26,25 +26,34 @@ const Customer = () => {
     data ? 
     reservations = data?.data?.reservations : null;   
     reservations ? console.log(reservations) : console.log('non');
-
-   
+    
+    // D date in ms
+    const today = new Date().getTime();
+   // If today in ms is > thant startDate in ms, the reservation's date is in the past
+    const isPassed = (startDate) => {
+        if ((today - (new Date(startDate).getTime())) > 0) {
+            return (true)
+        } else {
+            return (false)
+        }
+   }    ;  
+    
+    //reservation?.reservation?.start_date
     return (
-        <>
-        <h2>Customer page</h2>
-            Bonjour vous êtes connecté en tant que  {user.name} {user.first_name} votre token est {token}
-            <>
-        <Grid
-        container
-        justifyContent="center"
-        alignItems="stretch"
-        >
-            <Grid item md={12} sx={{backgroundColor:'red'}}>
-        <Box>
-    <Typography variant="H2" >  Compte Client </Typography>
+
+ <Container maxWidth="lg">       
+       
+    <Typography variant="h2" mt={2} align="center">  Compte Client </Typography>
          
-    <Typography variant="p"> {customer ? <p>Bonjour {customer?.first_name}  {customer?.name} </p> : null}</Typography>
-    <Table sx={{ minWidth: "100%" }}  aria-label="simple table">
-        <TableContainer component={Paper} align="left">
+    <Typography mt={8}  align="left" variant="h5"> {customer ? <p>Bonjour {customer?.first_name}  {customer?.name}, ci dessous la liste de vos réservations : </p> : null}</Typography>
+            <Box component="paper"
+            sx={{
+                display: 'block',
+                width: 'auto',
+                overflowX: 'scroll'
+            }} >
+        <Table sx={{ minWidth: "100%" }}  aria-label="simple table">
+        <TableContainer component={Paper} align="center">
             {reservations ?
                 <>
 
@@ -59,26 +68,41 @@ const Customer = () => {
                             <TableCell align="center"></TableCell>
                         </TableRow>
                     </TableHead>
+                    
                             <TableBody >
-                                                {reservations.map((reservation) =>
-                                                    <TableRow
-                                                        key={reservation.reservation_id}
-                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                    >
-                                                        <TableCell component="th" scope="row" sx={{ maxWidth: "150px" }}>
-                                                           coucou
-                                                        </TableCell>
-                                                        <TableCell align="center" >{format(new Date(reservation.start_date),"dd-MM-yyyy")}</TableCell>
-                                                        <TableCell align="center"  >{format(new Date(reservation.end_date),"dd-MM-yyyy")}</TableCell>
-                                                        <TableCell align="center" ><HotelInfo hotel_id={reservation.city} /></TableCell>
-                                                        <TableCell align="center" >{reservation.options}</TableCell>
-                                                        <TableCell align="center">{reservation.cost}</TableCell>
-                                                        <TableCell align="center"><Link path to="/hotel/suite"><Button onClick={()=>dispatch(selectSuite(reservation.suite_id))}>Voir la suite</Button></Link></TableCell>
-                                                        <TableCell align="center"><ReservationDelete reservation_id={reservation.reservation_id} /></TableCell>
-                                                           
+                            {reservations.map((reservation) =>
+                                <TableRow
+                                    key={reservation.reservation_id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    {! isPassed(reservation.start_date) ?
+                                        <>
+                                    <TableCell component="th" scope="row" sx={{ maxWidth: "150px" }}>
+                                    </TableCell>
+                                    <TableCell align="center" >{format(new Date(reservation.start_date),"dd-MM-yyyy")}</TableCell>
+                                    <TableCell align="center"  >{format(new Date(reservation.end_date),"dd-MM-yyyy")}</TableCell>
+                                    <TableCell align="center" ><HotelInfo hotel_id={reservation.city} /></TableCell>
+                                    <TableCell align="center" >{reservation.options}</TableCell>
+                                   <TableCell align="center">{reservation.cost}</TableCell>
+                                    <TableCell align="center"><NavLink path to="/hotel/suite"><Button onClick={()=>dispatch(selectSuite(reservation.suite_id))}>Voir la suite</Button></NavLink></TableCell>
+                                    <TableCell align="center"><ReservationDelete reservation={reservation} /></TableCell>
+                                        </> : 
+                                        <>
+                                        <TableCell component="th" scope="row" sx={{ maxWidth: "150px" }}>
+                                        </TableCell>
+                                        <TableCell align="center" >{format(new Date(reservation.start_date),"dd-MM-yyyy")}</TableCell>
+                                        <TableCell align="center"  >{format(new Date(reservation.end_date),"dd-MM-yyyy")}</TableCell>
+                                        <TableCell align="center" ><HotelInfo hotel_id={reservation.city} /></TableCell>
+                                        <TableCell align="center" >{reservation.options}</TableCell>
+                                        <TableCell align="center">{reservation.cost}</TableCell>
+                                        <TableCell align="center"><NavLink path to="/hotel/suite"><Button onClick={()=>dispatch(selectSuite(reservation.suite_id))}>Voir la suite</Button></NavLink></TableCell>
+                                        <TableCell align="center"><Typography variant="p">Votre réservation a déjà eu lieu</Typography></TableCell>
 
-                                                    </TableRow>
-                                                ) }
+                                        </>
+                                   }
+                                </TableRow>
+                                
+                            ) }
                     </TableBody>
                    
                 </>
@@ -86,14 +110,12 @@ const Customer = () => {
       
         </TableContainer >
 
-            </Table>
-    
-    </Box>
+                    </Table>
+            </Box>
+   
       
-        </Grid>
-    </Grid>    
-        </>
-        </>
+   
+            </Container>    
     )
 }
 

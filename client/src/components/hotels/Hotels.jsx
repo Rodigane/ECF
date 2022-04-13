@@ -11,9 +11,10 @@ const Hotels = () => {
       isSuccess ?  hotels = data.data.hotels : null;   
 
     return (
-        <>
-            <Typography variant="h2" mt={2} mb={2} component="h2" sx={{fontSize:{xs:'34px', fontWeight:'bold'}}}>Nos établissements</Typography>
-            <Paper elevation={3} >
+      <>
+
+            <Typography align="center" variant="h3" mt={4} mb={2} component="h2" >Nos établissements</Typography>
+       
                 <Box>
               {  isError ? (
                   <p>Ooops un erreur est survenu</p>
@@ -31,7 +32,6 @@ const Hotels = () => {
               </Container>)
                 : null}
             </Box>                
-            </Paper>
         </>
     )
 }

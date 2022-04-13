@@ -1,21 +1,34 @@
 import React, { useState } from 'react';
-import { Avatar, Button, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, Select, InputLabel, MenuItem, FormControl } from '@mui/material';
+import { Avatar, Button, TextField, Paper, Checkbox, Alert, Grid, Box, Typography, Container, Select, InputLabel, MenuItem, FormControl } from '@mui/material';
 import ContactsIcon from '@mui/icons-material/Contacts';
+import { useContactMutation } from '../api/apiSlice';
+import { useSelector } from 'react-redux';
+import SnackbarAlert from './Buttons/Snackbar';
+
 
 const Contact = () => {
-    const [name, setName] = useState("");
+   const queryState = useSelector(state => state.query.queryState)
+    const user = useSelector(state => state.user.user)
+    const [name, setName] = useState("" || user.name);
     const onNameChange = e => setName(e.target.value);
-    const [first_name, setFirstName] = useState("");
+    const [first_name, setFirstName] = useState("" || user.first_name);
     const onFirstNameChange = e => setFirstName(e.target.value);
-    const [email, setEmail] = useState("")
+    const [email, setEmail] = useState("" || user.email)
     const onEmailChange = e => setEmail(e.target.value);
     const [message, setMessage] = useState("")
     const onMessageChange = e => setMessage(e.target.value);
     const [subject, setSubject] = useState("");
     const onSubjectChange = e => setSubject(e.target.value);
+    
+    const [sendForm, { isSuccess : success }] = useContactMutation()
+  
     const handleSubmit = (e) => {
-        e.preventDefault();
-      }
+      e.preventDefault();
+      sendForm({ body: { name, first_name, email, message, subject } });
+    }
+    
+  if (success) {<Alert severity="success">Votre message a été envoyé avec succès</Alert>}
+  
     return (
 
       <Container component="main" maxWidth="xs">
@@ -26,8 +39,9 @@ const Contact = () => {
           flexDirection: 'column',
           alignItems: 'center',
         }}
-      >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        >
+
+        <Avatar sx={{ m: 1, bgcolor: '#E2DFA2' }}>
           <ContactsIcon />
         </Avatar>
         <Typography component="h1" variant="h4">
@@ -100,26 +114,24 @@ const Contact = () => {
                 id="message"
               />
             </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="Je souhaites souscrire à la newsletter Hypnos."
-              />
-            </Grid>
+         
           </Grid>
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2,backgroundColor:'#92AAC7', color:'black' }}
           >
-            S'enregistrer
+            Envoyer
           </Button>
           <Grid container justifyContent="flex-end">
           </Grid>
         </Box>
-      </Box>
+        </Box>
+        {queryState === 'success' ? <SnackbarAlert message='Votre mail a été envoyé avec succès' severity='success' /> : null}
+        {queryState === 400 ? <SnackbarAlert message="une erreur est survenue" severity='error' /> : null}
     </Container>
+          
     )
 }
 

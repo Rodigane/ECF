@@ -5,7 +5,7 @@ export const getHotels = async (req, res) => {
     const results = await db.query("select * from hotels");
     console.log(results.rows);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         hotels: results.rows,
@@ -24,7 +24,7 @@ export const getHotel = async (req, res) => {
     ]);
     console.log(results.rows[0]);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         hotels: results.rows[0],
@@ -54,7 +54,7 @@ export const createHotel = async (req, res) => {
     );
     console.log(results);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         hotels: results.rows[0],
@@ -88,13 +88,16 @@ export const updateHotel = async (req, res) => {
       ]
     );
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         hotels: results.rows[0],
       },
     });
   } catch (error) {
+    res.status(400).json({
+      status: "error",
+    });
     console.error(error);
   }
 };
@@ -106,8 +109,11 @@ export const deleteHotel = async (req, res) => {
     const results = await db.query("DELETE FROM hotels where hotel_id = $1", [
       hotel_id,
     ]);
-    res.status(200).json(console.log("delete successfull"));
+    res.status(200).json({ status: "success" });
   } catch (error) {
+    res.status(400).json({
+      status: "error",
+    });
     console.error(error);
   }
 };

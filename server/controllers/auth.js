@@ -2,6 +2,8 @@ import db from "../db/index.cjs";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { jwtTokens } from "../utils/jwt-helpers.js";
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
 
 export const login = async (req, res) => {
   try {
@@ -12,21 +14,24 @@ export const login = async (req, res) => {
       email,
     ]);
     if (results.rows.length === 0)
-      return res.Status(401).json({ error: "Email est incorrect" });
+      return res.Status(400).json({ error: "Email est incorrect" });
     const validPassword = await bcrypt.compare(
       password,
       results.rows[0].password
     );
     if (!validPassword)
-      return res.status(401).json({ error: "Mot de passe incorrect" });
+      return res.status(400).json({ error: "Mot de passe incorrect" });
     let tokens = jwtTokens(results.rows[0]);
     res.cookie("refresh_token", tokens.refreshToken, { httpOnly: true });
-    res.json({
+    res.status(200).json({
+      status: "success",
       tokens: tokens,
       users: results.rows[0],
     });
-    res.json(results.rows[0]);
   } catch (error) {
+    res.status(400).json({
+      status: "error",
+    });
     console.error(error);
   }
 };

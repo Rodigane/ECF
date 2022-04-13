@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid, Container, Box } from '@mui/material';
 import HotelEdit from './HotelEdit';
 import SuitesList from '../suites/SuitesList';
 import HotelDelete from './HotelDelete';
@@ -7,12 +7,22 @@ const HotelList = () => {
     const hotel = useSelector(state => state.hotel.hotel)
     const userRole = useSelector(state => state.user.user.role)
     return (
-        <>
-        <Typography variant="h3" align="center">
+        <Container>
+        <Grid container >
+            <Grid item xs={12} >
+                <Typography variant="h3" ml={2} mt={4} mb={3}>
        { hotel ? hotel.name : null} 
-        </Typography>    
-    <Table sx={{ minWidth: "100%" }}  aria-label="simple table">
-        <TableContainer component={Paper} align="left">
+                </Typography>    
+            </Grid>
+                <Grid item xs={12}   >
+        <Box component="paper"
+            sx={{
+                    display: 'block',
+                    width: 'auto',
+                    overflowX: 'scroll'    
+            }} >    
+    <Table aria-label="simple table">
+        <TableContainer align="left" component={Paper}>
             {hotel ?
                 <>
 
@@ -59,13 +69,20 @@ const HotelList = () => {
       
         </TableContainer >
 
-            </Table>
+                        </Table>
+                        </Box>
+                </Grid>
+                <Grid item xs={12}  > 
             {hotel ?
-                <SuitesList />
-                : null
+            
+                      <SuitesList />
+            
+                    
+            : null
             }
-           
-            </>
+           </Grid>
+            </Grid>
+            </Container>
     )}
 export default HotelList
 

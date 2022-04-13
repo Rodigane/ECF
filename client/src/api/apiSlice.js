@@ -12,15 +12,18 @@ export const apiSlice = createApi({
     return headers;
   },
 */
+  tagTypes: ["Hotel", "Suite", "Reservation", "Manager"],
   endpoints: (builder) => ({
     getHotels: builder.query({
       query: () => "/hotels",
+      providesTags: ["Hotel"],
     }),
     getHotel: builder.query({
       query: (hotel_id) => `/hotels/${hotel_id}`,
+      providesTags: ["Hotel"],
     }),
     updateHotel: builder.mutation({
-      query(data) {
+      query: (data) => {
         const { hotel_id, ...body } = data;
         return {
           url: `/hotels/${hotel_id}`,
@@ -28,9 +31,10 @@ export const apiSlice = createApi({
           body,
         };
       },
+      invalidatesTags: ["Hotel"],
     }),
     createHotel: builder.mutation({
-      query(data) {
+      query: (data) => {
         const { body } = data;
         return {
           url: "/hotels",
@@ -38,31 +42,36 @@ export const apiSlice = createApi({
           body,
         };
       },
+      invalidatesTags: ["Hotel"],
     }),
     deleteHotel: builder.mutation({
-      query(hotel_id) {
+      query: (hotel_id) => {
         return {
           url: `/hotels/${hotel_id}`,
           method: "DELETE",
         };
       },
+      invalidatesTags: ["Hotel"],
     }),
     getSuites: builder.query({
       query: (hotel_id) => `/suites/${hotel_id}`,
+      providesTags: ["Suite"],
     }),
     getSuite: builder.query({
       query: (suite_id) => `/suites/suite/${suite_id}`,
+      providesTags: ["Suite"],
     }),
     deleteSuite: builder.mutation({
-      query(suite_id) {
+      query: (suite_id) => {
         return {
           url: `/suites/suite/${suite_id}`,
           method: "DELETE",
         };
       },
+      invalidatesTags: ["Suite"],
     }),
     updateSuite: builder.mutation({
-      query(data) {
+      query: (data) => {
         const { suite_id, ...body } = data;
         return {
           url: `/suites/suite/${suite_id}`,
@@ -70,6 +79,7 @@ export const apiSlice = createApi({
           body,
         };
       },
+      invalidatesTags: ["Suite"],
     }),
     createSuite: builder.mutation({
       query(data) {
@@ -80,12 +90,14 @@ export const apiSlice = createApi({
           body,
         };
       },
+      invalidatesTags: ["Suite"],
     }),
     getReservations: builder.query({
       query: (suite_id) => `/reservations/${suite_id}`,
+      providesTags: ["Reservation"],
     }),
     createReservation: builder.mutation({
-      query(data) {
+      query: (data) => {
         const { suite_id, user_id, token, body } = data;
         return {
           headers: { Authorization: `Bearer ${token}` },
@@ -94,9 +106,10 @@ export const apiSlice = createApi({
           body,
         };
       },
+      invalidatesTags: ["Reservation"],
     }),
     getCustomerReservations: builder.query({
-      query(data) {
+      query: (data) => {
         const { customer_id, token } = data;
         return {
           headers: { Authorization: `Bearer ${token}` },
@@ -104,17 +117,21 @@ export const apiSlice = createApi({
           method: "GET",
         };
       },
+      providesTags: ["Reservation"],
     }),
     deleteReservation: builder.mutation({
-      query(reservation_id) {
+      query: (data) => {
+        const { reservation_id, token } = data;
         return {
+          headers: { Authorization: `Bearer ${token}` },
           url: `/reservations/${reservation_id}`,
           method: "DELETE",
         };
       },
+      invalidatesTags: ["Reservation"],
     }),
     getCustomer: builder.query({
-      query(data) {
+      query: (data) => {
         const { user_id, token } = data;
         return {
           headers: { Authorization: `Bearer ${token}` },
@@ -122,9 +139,10 @@ export const apiSlice = createApi({
           method: "GET",
         };
       },
+      invalidatesTags: ["Reservation"],
     }),
     createCustomer: builder.mutation({
-      query(data) {
+      query: (data) => {
         const { body } = data;
         return {
           url: `/customers`,
@@ -132,9 +150,10 @@ export const apiSlice = createApi({
           body,
         };
       },
+      invalidatesTags: ["Reservation"],
     }),
     createManager: builder.mutation({
-      query(data) {
+      query: (data) => {
         const { body } = data;
         return {
           url: `/managers`,
@@ -142,12 +161,14 @@ export const apiSlice = createApi({
           body,
         };
       },
+      providesTags: ["Manager"],
     }),
     getManagers: builder.query({
       query: () => "/managers",
+      providesTags: ["Manager"],
     }),
     updateManager: builder.mutation({
-      query(data) {
+      query: (data) => {
         const { user_id, ...body } = data;
         return {
           url: `/managers/manager/${user_id}`,
@@ -155,20 +176,32 @@ export const apiSlice = createApi({
           body,
         };
       },
+      invalidatesTags: ["Manager"],
     }),
     deleteManager: builder.mutation({
-      query(user_id) {
+      query: (user_id) => {
         return {
           url: `/managers/manager/${user_id}`,
           method: "DELETE",
         };
       },
+      invalidatesTags: ["Manager"],
     }),
     login: builder.mutation({
-      query(data) {
+      query: (data) => {
         const { body } = data;
         return {
           url: "/login",
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    contact: builder.mutation({
+      query: (data) => {
+        const { body } = data;
+        return {
+          url: "/contact",
           method: "POST",
           body,
         };
@@ -199,4 +232,5 @@ export const {
   useUpdateManagerMutation,
   useGetManagersQuery,
   useLoginMutation,
+  useContactMutation,
 } = apiSlice;

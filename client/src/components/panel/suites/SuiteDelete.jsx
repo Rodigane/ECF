@@ -3,6 +3,7 @@ import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentT
 import DeleteButton from '../../Buttons/DeleteButton';
 import { useSelector } from 'react-redux';
 import { useDeleteSuiteMutation } from '../../../api/apiSlice';
+import SnackbarAlert from '../../Buttons/Snackbar';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -10,8 +11,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function SuiteDelete(suite) {
+  const queryState = useSelector(state => state.query.queryState)
   const [open, setOpen] = useState(false);
-console.log(suite.suite)
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -48,6 +49,9 @@ console.log(suite.suite)
           </Button>
         </DialogActions>
       </Dialog>
+      {queryState === 'success' ? <SnackbarAlert message='Votre changement est bien pris en compte' severity='success' /> : null}
+      {queryState === 400 ? <SnackbarAlert message="une erreur est survenue" severity='error' /> : null}  
+
     </>
   );
 }

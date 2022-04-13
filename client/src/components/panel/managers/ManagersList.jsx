@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material'
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid, Box } from '@mui/material'
 import { useSelector } from 'react-redux';
 import { useGetManagersQuery } from '../../../api/apiSlice';
 import ManagerDelete from './ManagerDelete';
@@ -12,11 +12,21 @@ export default function ManagersList() {
   isSuccess ?  managers = data.data.users : null;   
   managers ? console.log(managers) : console.log("ras");
   return (
-    <>
-    <Typography variant="h3" align="center">
+    <Grid container>
+      <Grid item xs={12}>
+    <Typography mt={2} mb={2} ml={2} variant="h3" align="center">
     Les Managers
-</Typography>    
-    <Table sx={{ minWidth:"640px" }} aria-label="simple table">
+        </Typography>    
+      </Grid>
+      <Grid item xs={12} mt={2} >
+      <Box component="paper"
+          sx={{
+              mt:8,
+              display: 'block',
+              width: 'auto',
+              overflowX: 'scroll'
+              }}>    
+    <Table  aria-label="simple table">
       <TableContainer align="center" component={Paper}>
         {managers? 
           <>
@@ -55,9 +65,10 @@ export default function ManagersList() {
       
       </TableContainer >
 
-      </Table>
-    
-      </>  
+          </Table>
+          </Box>
+      </Grid>
+      </Grid>  
   );
 }
     

@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import {Grid, Typography, Box, List, Button, Collapse, ListItemText, ListItemButton, ListItemIcon, Accordion, AccordionDetails, AccordionSummary} from '@mui/material';
+import {Grid, Typography, Box, List, Container, Collapse, ListItemText, ListItemButton, ListItemIcon, Accordion, AccordionDetails, AccordionSummary} from '@mui/material';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useDispatch, useSelector } from "react-redux";
 import { useGetSuitesQuery, useGetHotelQuery } from "../../../api/apiSlice";
@@ -21,16 +21,14 @@ const ManagerPanel = () => {
       suites = data?.data?.suites;   
     
     return (
-        <>
+        <Container maxWidth={{lg:"xl",md:"md"}}>
         <Grid
         container
-        justifyContent="center"
         alignItems="stretch"
         >
-        <Grid item md={2}  alignItems="stretch"  sx={{backgroundColor:'pink', height:"80vh", textAlign:"center"}}>
-            Manager Menu
+        <Grid item lg={12} xl={2}  mt={2} >
+        <Typography component="h2" variant="h5" align="center"> MANAGER MENU</Typography>  
             <List
-              sx={{ width: '100%', maxWidth: 360}}
               component="nav"
               aria-labelledby="nested-list-subheader"
             > 
@@ -52,17 +50,15 @@ const ManagerPanel = () => {
         </Accordion>
         </List>
         </Grid>
-            <Grid item md={10} sx={{backgroundColor:'red'}}>
-        <Box>
-            <Typography variant="H2" >  Pannel d'administration </Typography>
-        </Box>
-        <Box>                     
+        <Grid item xs={12} md={10}>
+        <Container>        
+                         
                 <HotelList />
                          
-        </Box>
+        </Container>
         </Grid>
     </Grid>    
-        </>
+        </Container>
     )
 }
 

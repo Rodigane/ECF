@@ -13,6 +13,6 @@ const router = express.Router();
 router.get("/:suite_id", getReservations);
 router.post("/:suite_id/:user_id", authenticateToken, createReservation);
 router.get("/customer/:user_id", authenticateToken, getCustomerReservations);
-router.delete("/:reservation_id", deleteReservation);
+router.delete("/:reservation_id", authenticateToken, deleteReservation);
 
 export default router;

@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["dep:@mui_material_Checkbox"],
-  "sourcesContent": ["import d from \"./node_modules/@mui/material/Checkbox/index.js\";export default d;\nexport * from \"./node_modules/@mui/material/Checkbox/index.js\""],
-  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAA+D,IAAO,gCAAQ;",
-  "names": []
-}

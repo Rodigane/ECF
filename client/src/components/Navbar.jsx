@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Desktoplogo  from '../assets/logos/logo3.png'
 import Mobilelogo from '../assets/logos/logo.png'
 import Mobilelogo2 from '../assets/logos/logo2.png'
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 
@@ -13,13 +13,16 @@ import { useSelector } from "react-redux";
 const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
 
+    // ? Retrieving user info from the store
     const user = useSelector(state => state.user.token);
     const role = useSelector(state => state.user.user.role)
+    // ? Depending of the user role, we are redirecting to the adequate panel page [admin / manage / customer]
     const panel = role === 'admin' ? 'admin' : role === 'manager' ? 'manager': role === 'customer' ? 'moncompte' : null;
     let account;
     user ? account = { title: 'Mon compte', link: panel } : account = { title: 'Se connecter', link: 'signin' }
 
-    const pages = [{ title: 'Nos établissements', link: 'hotels' }, {title:'Contact', link:'contact'}, account]
+    const pages = [{ title: 'Nos établissements', link: 'hotels' }, { title: 'Contact', link: 'contact' }, account]
+    
     const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
     };
@@ -34,7 +37,7 @@ const Navbar = () => {
         <AppBar position="static" sx={{backgroundColor:'#92AAC7'}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                <Link to="/">
+                <NavLink className='link' to="/">
                     <Typography
                         variant="h6"
                         noWrap
@@ -43,8 +46,8 @@ const Navbar = () => {
                     >
                      <img src={Desktoplogo}></img>
                     </Typography>
-                </Link>
-                <Link to="/">
+                </NavLink>
+                <NavLink className='link' to="/">
                     <Typography
                         variant="h6"
                         noWrap
@@ -53,7 +56,7 @@ const Navbar = () => {
                     >
                      <img src={Mobilelogo}></img> <img src={Mobilelogo2}></img>
                     </Typography>
-                    </Link>  
+                    </NavLink>  
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-end' }}>
                         <IconButton
                         size="large"
@@ -83,18 +86,18 @@ const Navbar = () => {
                             }}
                         >
                             {pages.map((page) => (
-                                <Link to={page.link}>
+                                <NavLink className='link' to={page.link}>
                                 <MenuItem key={page.title} onClick={handleCloseNavMenu}>
                                     <Typography textAlign="center">{page.title}</Typography>
                                     </MenuItem>
-                                    </Link>
+                                    </NavLink>
                             ))}
                             </Menu>
                     </Box>
                     
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent:'flex-end' }}>
                         {pages.map((page) => (
-                            <Link to={page.link}> 
+                            <NavLink className='link' to={page.link}> 
                         <Button
                             key={page}
                             onClick={handleCloseNavMenu}
@@ -104,7 +107,7 @@ const Navbar = () => {
                                 
                              
                                 </Button>
-                                </Link>
+                                </NavLink>
                         ))}
                     </Box>
 

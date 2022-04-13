@@ -15,9 +15,7 @@ const HotelPicker = () => {
   console.log('coucou')
   console.log(hotelSelect);
   const [hotel, setHotel] = useState("")
-  if (hotelSelect !== null) {
-  // setHotel(hotelSelect)
-  } 
+
 
     const handleChange = (event) => {
       setHotel(event.target.value) 

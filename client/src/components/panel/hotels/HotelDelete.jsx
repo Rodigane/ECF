@@ -3,6 +3,7 @@ import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentT
 import DeleteButton from '../../Buttons/DeleteButton';
 import { useSelector } from 'react-redux';
 import { useDeleteHotelMutation } from '../../../api/apiSlice';
+import SnackbarAlert from '../../Buttons/Snackbar';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -10,6 +11,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function HotelDelete() {
+  
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -21,6 +23,7 @@ export default function HotelDelete() {
   };
 
   const hotel = useSelector(state => state.hotel.hotel);
+  const queryState = useSelector(state => state.query.queryState)
 
   const [deleteHotel, { isLoading: isUpdating }] = useDeleteHotelMutation()
   const handleDelete = () => {
@@ -49,6 +52,9 @@ export default function HotelDelete() {
           </Button>
         </DialogActions>
       </Dialog>
+      {queryState === 'success' ? <SnackbarAlert message='Votre changement est bien pris en compte' severity='success' /> : null}
+      {queryState === 400 ? <SnackbarAlert message="une erreur est survenue" severity='error' /> : null}   
+
     </>
   );
 }

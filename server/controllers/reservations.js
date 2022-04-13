@@ -8,13 +8,16 @@ export const getReservations = async (req, res) => {
     );
     console.log(results.rows);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         reservations: results.rows,
       },
     });
   } catch (error) {
+    res.status(400).json({
+      status: "error",
+    });
     console.error(error);
   }
 };
@@ -41,13 +44,16 @@ export const createReservation = async (req, res) => {
     );
     console.log(results);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         reservations: results.rows[0],
       },
     });
   } catch (error) {
+    res.status(400).json({
+      status: "error",
+    });
     console.error(error);
   }
 };
@@ -61,13 +67,16 @@ export const getCustomerReservations = async (req, res) => {
     console.log(req.params.user_id);
     console.log(results.rows);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         reservations: results.rows,
       },
     });
   } catch (error) {
+    res.status(400).json({
+      status: "error",
+    });
     console.error(error);
   }
 };
@@ -80,8 +89,11 @@ export const deleteReservation = async (req, res) => {
       "DELETE FROM reservations where reservation_id = $1",
       [reservation_id]
     );
-    res.status(200).json(console.log("delete successfull"));
+    res.status(200).json({ status: "success" });
   } catch (error) {
+    res.status(400).json({
+      status: "error",
+    });
     console.error(error);
   }
 };

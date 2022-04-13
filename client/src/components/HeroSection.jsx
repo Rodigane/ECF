@@ -1,7 +1,7 @@
 import { Paper, Box, Typography, Button, Grid} from "@mui/material"
 import React from "react"
 import herobg from "/assets/photos/hero.jpg"
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 
 const HeroSection = () => {
@@ -59,20 +59,20 @@ const HeroSection = () => {
                     </Grid>  
                     <Grid item xs={8}></Grid>
                     <Grid item xs={4}>
-                    <Link path to ="/hotels">
+                    <NavLink className='link' path to ="/hotels">
                     <Button variant="contained" size="small" sx={{mt:6, mr:6, backgroundColor: '#E2DFAE', color: 'red', display: { xs: 'flex', md: 'none' }}}>
                     Nos établissements
                         </Button> 
-                        </Link>
+                        </NavLink>
                         </Grid>
                     <Grid item xs={0} md={12} sx={{backgroundColor: '', height : '16rem'}}></Grid>
                     <Grid item xs={0} md={8} sx={{backgroundColor: ''}}></Grid>
                     <Grid item>
-                        <Link path to ="/hotels">
+                        <NavLink className='link' path to ="/hotels">
                         <Button variant="contained" size="large" sx={{ backgroundColor: '#E2DFAE', color: 'black', display: { xs: 'none', md: 'block' } }}>
                     Nos établissements
                         </Button>
-                        </Link>
+                        </NavLink>
                     </Grid>
                                     
             </Grid> 

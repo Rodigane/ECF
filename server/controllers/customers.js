@@ -8,7 +8,7 @@ export const getCustomer = async (req, res) => {
     ]);
     console.log(results.rows);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         users: results.rows[0],
@@ -29,13 +29,16 @@ export const createCustomer = async (req, res) => {
     );
     console.log(results);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         users: results.rows[0],
       },
     });
   } catch (error) {
+    res.status(400).json({
+      status: "error",
+    });
     console.error(error);
   }
 };

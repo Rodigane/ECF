@@ -15,9 +15,8 @@ const Suites = () => {
 
     return (
         <>
-         <Typography variant="h2" mt={2} mb={2} component="h2" sx={{fontSize:{xs:'34px', fontWeight:'bold'}}}>Nos Suites</Typography>
-            <Paper elevation={3} >
-                <Box>
+            <Typography variant="h3" align="center" component="h3">Nos Suites</Typography>
+            <Box>
               {  isError ? (
                   <p>Ooops un erreur est survenu</p>
                 ) : isLoading ? (
@@ -34,7 +33,6 @@ const Suites = () => {
               </Container>)
                 : null}
             </Box>                
-            </Paper>
         </>
     )
 }

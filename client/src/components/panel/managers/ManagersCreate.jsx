@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, MenuItem, Select, InputLabel, FormHelperText } from "@mui/material"
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, MenuItem, Select, InputLabel, FormHelperText, FormControl, SnackbarContent } from "@mui/material"
 import EditButton from '../../Buttons/EditButton';
 import {useCreateManagerMutation, useGetHotelsQuery} from '../../../api/apiSlice';
-
+import SnackbarAlert from '../../Buttons/Snackbar';
+import { useSelector } from 'react-redux';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -13,17 +14,9 @@ export default function ManagerCreate() {
   const { data, isLoading, isSuccess, isError } = useGetHotelsQuery(); 
   let hotels;
   isSuccess ? hotels = data.data.hotels : null;
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
  
+  const queryState = useSelector(state => state.query.queryState)
+
   const [name, setName] = useState("");
   const onNameChange = e => setName(e.target.value);
   const [first_name, setfirstName] = useState("");
@@ -34,14 +27,29 @@ export default function ManagerCreate() {
   const onPasswordChange = e => setPassword(e.target.value);
   const [role, setRole] = useState("");
   const onRoleChange = e => setRole(e.target.value);
-  const [hotelId, setHotelId] = useState("");
+  const [hotelId, setHotelId] = useState(-1);
   const onHotelIdChange = e => setHotelId(e.target.value);
   const [createManager, { isLoading: isUpdating }] = useCreateManagerMutation()
   const handleUpdate = () => {
     createManager({body: { name, first_name, email, password, role, hotelId } }) &&
       handleClose();
   }
-   
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setHotelId(-1);
+    setRole("");
+    setPassword("");
+    setEmail("");
+    setfirstName("");
+    setName("");
+  };
+
   
 
   return (
@@ -95,7 +103,8 @@ export default function ManagerCreate() {
           fullWidth
           value={password}
           onChange={onPasswordChange}
-        />
+          />
+         
           <InputLabel id="role">Role</InputLabel>
           <Select
           margin="dense"
@@ -105,26 +114,30 @@ export default function ManagerCreate() {
           type="text"
           fullWidth
           value={role}
-          onChange={onRoleChange}
+              onChange={onRoleChange}
+              sx={{marginTop: '0.7 rem'}}
           >
             <MenuItem value={"admin"}>Administrateur</MenuItem>
             <MenuItem value={"manager"}>Manager</MenuItem>
-          </Select>
+            </Select>
+          
           <InputLabel id="role">Hotel</InputLabel>
           <Select
-          margin="dense"
-          id="hotel"
-          label="Hotel"
-          labelId="Hotel"
-          type="text"
-          fullWidth
-          value={hotelId}
-          onChange={onHotelIdChange}
+              margin="dense"
+              id="hotel"
+              label="Hotel"
+              labelId="Hotel"
+              type="text"
+              fullWidth
+              value={hotelId}
+              onChange={onHotelIdChange}
+              sx={{marginTop: '0.7 rem'}}
           >
            { hotels?.map(hotel =>
             <MenuItem key={hotel?.hotel_id} value={hotel?.hotel_id}>{hotel?.city}-{hotel?.name}</MenuItem>
             )} 
-          </Select>
+            </Select>
+      
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
@@ -135,7 +148,8 @@ export default function ManagerCreate() {
         </Button>
       </DialogActions>
     </Dialog> 
-      
+      {queryState === 'success' ? <SnackbarAlert message='Manager ajouté avec succès' severity='success' /> : null}
+      {queryState === 400 ? <SnackbarAlert message="une erreur est survenue" severity='error' /> : null}    
     </>
   );
 }

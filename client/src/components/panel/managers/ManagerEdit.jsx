@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, MenuItem, Select, InputLabel, FormHelperText } from "@mui/material"
 import EditButton from '../../Buttons/EditButton';
 import {useUpdateManagerMutation, useGetHotelsQuery} from '../../../api/apiSlice';
-
+import { useSelector } from 'react-redux';
+import SnackbarAlert from '../../Buttons/Snackbar';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -10,6 +11,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function ManagerEdit(user) {
 
+  const queryState = useSelector(state => state.query.queryState)
   const userRole = useSelector(state => state.user.user.role)
   const { data, isLoading, isSuccess, isError } = useGetHotelsQuery(); 
   let hotels;
@@ -128,7 +130,9 @@ export default function ManagerEdit(user) {
         </Button>
       </DialogActions>
     </Dialog> 
-      
+      {queryState === 'success' ? <SnackbarAlert message='Votre changement est bien pris en compte' severity='success' /> : null}
+      {queryState === 400 ? <SnackbarAlert message="une erreur est survenue" severity='error' /> : null}    
+
     </>
   );
 }

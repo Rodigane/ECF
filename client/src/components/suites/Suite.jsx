@@ -1,8 +1,9 @@
 import React from "react"
 import { useSelector, useDispatch } from "react-redux";
 import { useGetSuiteQuery } from "../../api/apiSlice";
-import { ImageList, ImageListItem, Typography, Box, Button } from "@mui/material";
-import {Link} from "react-router-dom";
+import { ImageList, ImageListItem, Typography, Box, Button, Container, Grid, ButtonGroup } from "@mui/material";
+import {NavLink} from "react-router-dom";
+import Image from 'mui-image';
 
 const Suite = () => {
     const dispatch = useDispatch();
@@ -16,47 +17,50 @@ const Suite = () => {
     suite ? gallery = suite.image_gallery : null;
 
     return (
-      <>
-        <Typography variant="h2" mb={6}>{suite?.title}</Typography>
-        <Box sx={{display: 'flex'}}>
+      <Container maxWidth='md' sx={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+        <Typography variant="h2" align="center" mt={3} mb={6}>{suite?.title}</Typography>
+        
       {  
       gallery ?
-      <Box sx={{flex:4}} m={3}>
-            <ImageList  sx={{ width: '500px'}} cols={2} >
-            {gallery.map((photo) => (
-              <ImageListItem key={photo}  >
-                <img
-                  src={`/${photo}`}
-                  loading="lazy"
-                />
+            <Box>
+            <ImageList cols={2}   >
+                {gallery.map((photo) => (
+              <ImageListItem  key={photo}  >
+          <Image
+              src={`/${photo}`}
+              height='100%'
+              width='100%'
+              fit="cover"
+              duration={1500}
+          />
               </ImageListItem>
             ))}
-          </ImageList>
-          </Box>
+                </ImageList> 
+                     
+          </Box>   
           :
           null
     }
       { suite ?
-      <Box m={3}>
-      
-      <Typography variant="string" align="justify">
+      <Box mt={3} sx={{display: 'flex', flexDirection:'column', justifyContent: 'center'}}>
+      <Typography variant="string" align="center">
       {suite.description}
       </Typography>
-      <Typography variant="subtitle1">
+              <Typography mt={2} variant="subtitle1" align="center">
      Prix pour une nuit :  {suite.price} €
-        </Typography>
-        <Link to={suite.booking_link}> 
-          <Button size="large">Lien booking</Button>
-        </Link>
-        <Link to={`/reservation`}> 
-                <Button variant="contained" onClick={() => dispatch(selectSuite( suite.suite_id))} size="small">Réserver</Button>
-        </Link>
-      </Box>
+              </Typography>
+    
+             <Box component="div" sx={{display: 'flex', justifyContent: 'center'}} mt={3} mb={3}> 
+          <Button onClick={ () => window.open("http://booking.com")}>Booking.com</Button>
+          <NavLink className='link' to={`/reservation`}> 
+          <Button  sx={{backgroundColor:'#92AAC7', color:'black'}} size="large" variant="contained"  onClick={() => dispatch(selectSuite( suite.suite_id))}>Réserver</Button>
+          </NavLink>
+          </Box>      
+                </Box>
       : null
       }
 
-    </Box>
-</>
+</Container>
     )
 }
 

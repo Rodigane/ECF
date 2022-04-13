@@ -108,7 +108,7 @@ export default function DatePicker() {
   // !    -------------------------------------------------------------------------------   !//
   if (value[0] && value[1] !== null) {
     nb_night = getDatesInRange(value[0], value[1]).length;
-    cost = nb_night * price;
+    cost = (nb_night * price).toFixed(2);
   }
   // ! Handle Reservation
   const [createReservation, { isLoading: isUpdating }] = useCreateReservationMutation()
@@ -122,13 +122,13 @@ export default function DatePicker() {
   }
  
   return (
-   <Grid container direction="column" alignItems="center" spacing={3}> 
+   <Grid container alignItems="center" sx={{mt:3}}> 
      <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale} >
-     <Grid item xs={12} md={6}>
+     <Grid item xs={12} md={6} sx={{mb:2}}>
       <DateRangePicker
         disablePast
         startText="Date d'arrivée"
-        endText="Date du départ"
+          endText="Date du départ"
         value={value}
         shouldDisableDate={dateToDisabled}
         toolbarTitle="Selectionner vos dates de séjours"
@@ -146,34 +146,31 @@ export default function DatePicker() {
         
           />
           </Grid>
-        {/**console.log(new Date(value[0]))}
-        {console.log(new Date(value[1]))*/}
       </LocalizationProvider>
-      <Grid item>
+      <Grid item xs={12} md={6} sx={{mb:{xs:3 , md:4}}}>
         <TextField
-           
           autoFocus
+          fullWidth
           margin="dense"
           id="option"
           multiline
           maxRows={4}
           label="commentaires"
           type="text"
-          fullWidth
           value={option}
           onChange={onOptionChange}
         />
       </Grid>
-      <Grid item>
+      <Grid item xs={12} sx={{ display:'flex', justifyContent:'center', mb:{xs:3 , md:4}}}>
       { 
-          nb_night === 1 ? <Typography variant="p">prix pour {nb_night} nuit : {cost} € </Typography> :
-          nb_night > 1 ? <Typography variant="p">prix pour {nb_night} nuits : {cost} € </Typography> :
+          nb_night === 1 ? <Typography variant="p">Prix pour {nb_night} nuit : {cost} € </Typography> :
+          nb_night > 1 ? <Typography variant="p">Prix pour {nb_night} nuits : {cost} € </Typography> :
           null
       }
       </Grid>
-      <Grid item >
-      <Button variant="contained" onClick={handleReservation} >Valider</Button>
-        </Grid>
+      <Grid item xs={12} sx={{ display:'flex', justifyContent:'center'}} >
+      <Button sx={{backgroundColor:'#92AAC7', color:'black'}} size='large' variant="contained" onClick={handleReservation} >Valider</Button>
+      </Grid>
 </Grid>
   );
 }

@@ -1,56 +1,59 @@
 import React, { useState } from 'react';
-import { Avatar, Button, TextField, FormControlLabel, Checkbox, Grid, Box, Typography, Container } from '@mui/material';
+import { Avatar, Button, TextField, Alert, Checkbox, Grid, Box, Typography, Container } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useLoginMutation } from '../api/apiSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCredentials } from '../reducers/userSlice';
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import SnackbarAlert from './Buttons/Snackbar';
 
-export default function SignUp() {
+const SignIn = () => {
 
-  const dispatch = useDispatch();
-  const token = useSelector(state => state.user.token);
+  const queryState = useSelector(state => state.query.queryState)
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const onEmailChange = e => setEmail(e.target.value);
-  const [password, setPassword] = useState("")
+  const [password, setPassword] = useState("");
   const onPasswordChange = e => setPassword(e.target.value);
-  const [login, { isSuccess : isSuccess }] = useLoginMutation()
-  
-  
+  const [login, { isSuccess: isSuccess, error }] = useLoginMutation();
+  const userLocation = useSelector(state => state.auth.auth)
+  const token = useSelector(state => state.user.token)
   
   const handleSubmit = (e) => {
     e.preventDefault();
     login({ body: { email, password } });
   }
- 
+
+  if (error) {
+    const origin = userLocation;
+    //alert('Erreur de connexion')
+    navigate(origin)
+  };
+  
+  if (token && isSuccess) {
+    const origin = userLocation || '/';
+    navigate(origin);
+  }
  
 
 
   return (
 
-      <Container component="main" maxWidth="xs">
-      {token ?
-        //<Navigate to="/moncompte" /> 
-        <>
-        <Link to="/moncompte"><Button>compte</Button> </Link>
-        <Link to="/reservation"><Button>reservation</Button> </Link>
-        </>
-        : 
+      <Container maxWidth="xs">
         <Box
           sx={{
             marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-          }}
+        }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: '#E2DFA2' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Connectez Vous
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form"   onSubmit={handleSubmit}  noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               
               <Grid item xs={12}>
@@ -81,32 +84,25 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, backgroundColor:'#92AAC7', color:'black'  }}
+          
             >
               Se Connecter
           </Button>
-          <Link path to="/moncompte">
-          <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          
-            >
-              reservation
-            </Button>
-            </Link>
+     
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link path to="/signup" variant="body2">
+                <NavLink path to="/signup" variant="body2">
                   Pas encore de compte? Créez en un.
-                </Link>
+                </NavLink>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        }
+      {queryState === 400 ? <SnackbarAlert message="une erreur est survenue" severity='error' /> : null}      
     </Container>
 
   );
 }
+
+export default SignIn

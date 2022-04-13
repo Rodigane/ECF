@@ -3,6 +3,7 @@ import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentT
 import EditButton from '../../Buttons/EditButton';
 import { useSelector } from 'react-redux';
 import { useUpdateHotelMutation } from '../../../api/apiSlice';
+import SnackbarAlert from '../../Buttons/Snackbar';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -20,6 +21,7 @@ export default function HotelEdit() {
     setOpen(false);
   };
 
+  const queryState = useSelector(state => state.query.queryState)
   const hotel = useSelector(state => state.hotel.hotel);
   const userRole = useSelector(state => state.user.user.role)
   const [name, setName] = useState(hotel.name);
@@ -41,8 +43,8 @@ export default function HotelEdit() {
   const handleUpdate = () => {
     updateHotel({ hotel_id: hotel.hotel_id, body: { name, city, address, description, photo, manager } }) &&
       handleClose();
-    // useUpdateHotelMutation( hotel.hotel_id, (name, city, address, description, photo, manager))
   }
+
   return (
     <>
       <Button onClick={handleClickOpen}>
@@ -122,6 +124,7 @@ export default function HotelEdit() {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+      {queryState === 'success' ? <SnackbarAlert message='Votre changement est bien pris en compte' severity='success' /> : null}
+      {queryState === 400 ? <SnackbarAlert message="une erreur est survenue" severity='error' /> : null}    </>
   );
 }

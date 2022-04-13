@@ -30,7 +30,7 @@ export const getSuite = async (req, res) => {
     console.log(req.params.suite_id);
     console.log(results.rows);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         suites: results.rows[0],
@@ -61,7 +61,7 @@ export const createSuite = async (req, res) => {
     );
     console.log(results);
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         suites: results.rows[0],
@@ -93,13 +93,16 @@ export const updateSuite = async (req, res) => {
       ]
     );
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       results: results.rows.length,
       data: {
         suites: results.rows[0],
       },
     });
   } catch (error) {
+    res.status(400).json({
+      status: "error",
+    });
     console.error(error);
   }
 };
@@ -111,8 +114,11 @@ export const deleteSuite = async (req, res) => {
     const results = await db.query("DELETE FROM suites where suite_id = $1", [
       suite_id,
     ]);
-    res.status(200).json(console.log("delete successfull"));
+    res.status(200).json({ status: "success" });
   } catch (error) {
+    res.status(400).json({
+      status: "error",
+    });
     console.error(error);
   }
 };
