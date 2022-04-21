@@ -1,4 +1,4 @@
-import { Card, CardMedia, CardContent, Typography, CardActions, Button,ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
+import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
 import {NavLink} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { selectHotel } from '../../reducers/hotelSlice';

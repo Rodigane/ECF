@@ -1,17 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { useSelector } from "react-redux";
 
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3005/api/v1" }),
-  /** 
-  prepareHeaders: (headers, token) => {
-    if (token) {
-      headers.set("authorization", `Bearer ${token}`);
-    }
-    return headers;
-  },
-*/
+
   tagTypes: ["Hotel", "Suite", "Reservation", "Manager"],
   endpoints: (builder) => ({
     getHotels: builder.query({

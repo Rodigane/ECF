@@ -7,7 +7,6 @@ import { NavLink } from "react-router-dom";
 import ReservationDelete from "./ReservationDelete";
 import HotelInfo from "../../hotel/HotelInfo";
 
-
 import format from 'date-fns/format';
 
 
@@ -16,7 +15,6 @@ const Customer = () => {
 
     const user = useSelector(state => state.user.user);
     const token = useSelector(state => state.user.token);
-
     const { data: customers } = useGetCustomerQuery({ user_id: user.user_id, token: token });
     console.log(customers?.data?.users);
     const customer = customers?.data?.users;
@@ -54,7 +52,7 @@ const Customer = () => {
             }} >
         <Table sx={{ minWidth: "100%" }}  aria-label="simple table">
         <TableContainer component={Paper} align="center">
-            {reservations ?
+            {reservations && user ?
                 <>
 
                     <TableHead >
@@ -69,7 +67,7 @@ const Customer = () => {
                         </TableRow>
                     </TableHead>
                     
-                            <TableBody >
+                            <TableBody  >
                             {reservations.map((reservation) =>
                                 <TableRow
                                     key={reservation.reservation_id}
@@ -79,22 +77,22 @@ const Customer = () => {
                                         <>
                                     <TableCell component="th" scope="row" sx={{ maxWidth: "150px" }}>
                                     </TableCell>
-                                    <TableCell align="center" >{format(new Date(reservation.start_date),"dd-MM-yyyy")}</TableCell>
-                                    <TableCell align="center"  >{format(new Date(reservation.end_date),"dd-MM-yyyy")}</TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "110px" }} >{format(new Date(reservation.start_date),"dd-MM-yyyy")}</TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "110px" }} >{format(new Date(reservation.end_date),"dd-MM-yyyy")}</TableCell>
                                     <TableCell align="center" ><HotelInfo hotel_id={reservation.city} /></TableCell>
                                     <TableCell align="center" >{reservation.options}</TableCell>
-                                   <TableCell align="center">{reservation.cost}</TableCell>
+                                   <TableCell align="center">{reservation.cost} €</TableCell>
                                     <TableCell align="center"><NavLink path to="/hotel/suite"><Button onClick={()=>dispatch(selectSuite(reservation.suite_id))}>Voir la suite</Button></NavLink></TableCell>
                                     <TableCell align="center"><ReservationDelete reservation={reservation} /></TableCell>
                                         </> : 
                                         <>
                                         <TableCell component="th" scope="row" sx={{ maxWidth: "150px" }}>
                                         </TableCell>
-                                        <TableCell align="center" >{format(new Date(reservation.start_date),"dd-MM-yyyy")}</TableCell>
-                                        <TableCell align="center"  >{format(new Date(reservation.end_date),"dd-MM-yyyy")}</TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "110px" }} >{format(new Date(reservation.start_date),"dd-MM-yyyy")}</TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "110px" }} >{format(new Date(reservation.end_date),"dd-MM-yyyy")}</TableCell>
                                         <TableCell align="center" ><HotelInfo hotel_id={reservation.city} /></TableCell>
                                         <TableCell align="center" >{reservation.options}</TableCell>
-                                        <TableCell align="center">{reservation.cost}</TableCell>
+                                        <TableCell align="center">{reservation.cost} €</TableCell>
                                         <TableCell align="center"><NavLink path to="/hotel/suite"><Button onClick={()=>dispatch(selectSuite(reservation.suite_id))}>Voir la suite</Button></NavLink></TableCell>
                                         <TableCell align="center"><Typography variant="p">Votre réservation a déjà eu lieu</Typography></TableCell>
 

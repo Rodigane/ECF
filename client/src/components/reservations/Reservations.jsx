@@ -15,7 +15,7 @@ const Reservation = () => {
         <Container >
         <Grid  container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12} >
-                <Typography variant="h2" mt={3} mb={6}>Reservation</Typography>
+                <Typography align="center" variant="h2" mt={3} mb={6}>Reservation</Typography>
         </Grid>
         <Grid item xs={12} md={6} >
                 <HotelPicker />

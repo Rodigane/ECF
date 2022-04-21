@@ -1,10 +1,8 @@
 import React, {useState} from "react"
-import {Grid, Typography, Box, List, Container, Collapse, ListItemText, ListItemButton, ListItemIcon, Accordion, AccordionDetails, AccordionSummary} from '@mui/material';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+import {Grid, Typography,  Container } from '@mui/material';
 import { useDispatch, useSelector } from "react-redux";
 import { useGetSuitesQuery, useGetHotelQuery } from "../../../api/apiSlice";
 import { selectHotel } from "../../../reducers/hotelSlice";
-import SuitesList from "../suites/SuitesList";
 import HotelList from "../hotels/HotelList";
 
 const ManagerPanel = () => {
@@ -13,7 +11,7 @@ const ManagerPanel = () => {
     console.log(hotelId)
     let { data : hotel, isSuccess : hotelIsSuccess } = useGetHotelQuery(hotelId);
     const hotelDetails = hotel?.data?.hotels;
-
+    hotelDetails && dispatch(selectHotel({ hotel_id: hotelDetails.hotel_id, name: hotelDetails.name, city: hotelDetails.city, address: hotelDetails.address, description: hotelDetails.description, photo: hotelDetails.photo }))
     console.log(hotelId)
     let { data , isLoading, isSuccess, isError } = useGetSuitesQuery(hotelId);
     let suites;
@@ -26,36 +24,13 @@ const ManagerPanel = () => {
         container
         alignItems="stretch"
         >
-        <Grid item lg={12} xl={2}  mt={2} >
+        <Grid item lg={12}   mt={2} >
         <Typography component="h2" variant="h5" align="center"> MANAGER MENU</Typography>  
-            <List
-              component="nav"
-              aria-labelledby="nested-list-subheader"
-            > 
-        <Accordion>
-            <AccordionSummary
-            expandIcon={<ExpandMore />}
-             aria-controls="panel2a-content"
-             id="panel2a-header"
-            >
-        <Typography>Mon établissement</Typography>
-        </AccordionSummary>
-            <AccordionDetails>
-                <ul>
-                <ListItemButton  key={hotelDetails?.hotel_id} onClick={() => dispatch(selectHotel({ hotel_id: hotelDetails.hotel_id, name: hotelDetails.name, city: hotelDetails.city, address: hotelDetails.address, description: hotelDetails.description, photo: hotelDetails.photo }))}>       
-                        <ListItemText  primary={hotelDetails?.name} secondary={hotelDetails?.city} />
-                </ListItemButton>
-                </ul>
-            </AccordionDetails>
-        </Accordion>
-        </List>
         </Grid>
-        <Grid item xs={12} md={10}>
-        <Container>        
-                         
-                <HotelList />
-                         
-        </Container>
+        <Grid item xs={12}>
+               
+            <HotelList />                
+        
         </Grid>
     </Grid>    
         </Container>

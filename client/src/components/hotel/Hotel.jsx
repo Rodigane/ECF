@@ -1,5 +1,5 @@
 import React from "react"
-import { Typography, Paper, Box, Container, Grid,ImageList, ImageListItem, ImageListItemBar, Card, CardMedia, CardContent } from "@mui/material"
+import { Typography, CircularProgress, Box, Container, Grid,ImageList, ImageListItem, ImageListItemBar, Card, CardMedia, CardContent } from "@mui/material"
 import { useSelector } from "react-redux";
 import { useGetHotelQuery } from "../../api/apiSlice";
 import Suites from "../suites/Suites";
@@ -22,17 +22,21 @@ const Hotel = () => {
       { hotel  ? 
             
             <Grid container mb={6}>
-            <Grid item xs={12} sx={{maxHeight:'350px', border:'solid 4px red'}} mt={6}>
+            <Grid item xs={12} sx={{maxHeight:'350px'}} mt={6}>
           <Image
           src={`/${hotel.photo}`}
               height='100%'
               width='100%'
-              fit="cover"
+                fit="cover"
+                duration={1500}
           />
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h2" mt={6}   mb={4} align='center' component="h2">Hotel {hotel.name} - {hotel.city} </Typography>
-              </Grid>
+              <Typography variant="h2" mt={6}   mb={2} align='center' component="h2">Hotel {hotel.name}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant='h4' align="center" mb={2}>{hotel.address} {hotel.city}. </Typography>
+            </Grid>
             <Grid item xs={12}>
             <Container maxWidth="md" align='justify' >
                 <Typography variant="p" >
@@ -42,14 +46,14 @@ const Hotel = () => {
               </Grid>
           </Grid> 
    
-      : <p>Loading ....</p>
+      : <Box sx={{display:'flex', justifyContent:'center', marginTop:'20%'}}><CircularProgress /></Box>
      
       }  
           {hotel ?
             
               <Suites />
             
-              : <p>Loading ....</p>
+              : <Box sx={{display:'flex', justifyContent:'center', marginTop:'20%'}}> <CircularProgress color="secondary" /></Box>
           
 
           }

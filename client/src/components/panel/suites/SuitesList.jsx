@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid, Container, Box } from '@mui/material'
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid , Box } from '@mui/material'
 import { useSelector } from 'react-redux';
 import { useGetSuitesQuery } from '../../../api/apiSlice';
 import DeleteButton from '../../Buttons/DeleteButton';
@@ -77,7 +77,7 @@ export default function SuitesList() {
         </Grid>
         {queryState === 'success' ? <SnackbarAlert message='Votre changement est bien pris en compte' severity='success' /> : null}
         {queryState === 400 ? <SnackbarAlert message="une erreur est survenue" severity='error' /> : null}
-        <Grid xs={12} mb={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Grid xs={12} mt={2} mb={2} sx={{ display: 'flex', justifyContent: 'center' }}>
         <SuiteCreate    hotel={hotelId} />
         </Grid>
       </Grid>  

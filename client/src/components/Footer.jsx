@@ -1,5 +1,6 @@
 import React from 'react'
-import { Typography, Link, Box, Container } from '@mui/material'
+import { Typography, Box } from '@mui/material'
+import { NavLink } from 'react-router-dom'
 const Footer = () => {
   return (
     <Box
@@ -15,9 +16,9 @@ const Footer = () => {
  
     <Typography variant="body2" color="text.secondary" align="center">
     {'Copyright © '}
-    <Link color="inherit" href="">
+    <NavLink className='link' color="inherit" to="/">
       Hypnos
-    </Link>{' '}
+    </NavLink>{' '}
     {new Date().getFullYear()}
     {'.'}
   </Typography>

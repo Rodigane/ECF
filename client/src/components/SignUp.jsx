@@ -25,14 +25,25 @@ const SignUp = () => {
       return false;
     }
     if (password.length < 2 || password.length > 30) {
-      alert('le Nom doit contenir  entre 3 et 3O lettres');
+      alert('le mot de passe doit contenir  entre 3 et 3O lettres');
       return false;
+    }
+  }
+
+  const isValidEmail = () => {
+    const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (email.match(validRegex)) {
+      return true
+    } else {
+      alert("Adresse email non valide")
+      return false
     }
   }
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (checkData() === false) { return;};
+    if (checkData() === false) { return; };
+    if (isValidEmail() === false) { return;}
     createCustomer({ body: { name, first_name, email, password } });
   }
   
@@ -111,12 +122,6 @@ const SignUp = () => {
                   id="password"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="Je souhaites souscrire à la newsletter Hypnos."
-                />
-              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -127,7 +132,7 @@ const SignUp = () => {
               S'enregistrer
             </Button>
             <Grid container justifyContent="flex-end">
-              <Grid item>
+              <Grid item mb={2}>
                 <NavLink to="/signin" variant="body2">
                   Déjà un compte? connectez vous
                 </NavLink>

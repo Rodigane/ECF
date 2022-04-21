@@ -7,8 +7,10 @@ import frLocale from 'date-fns/locale/fr';
 import format from 'date-fns/format';
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetReservationsQuery, useCreateReservationMutation, useGetSuiteQuery } from '../../api/apiSlice';
-
-
+// ? Test
+import { userLocation } from "../../reducers/auth"
+import { useNavigate, useLocation } from "react-router-dom";
+// ? Test
 export default function DatePicker() {
 
   const [value, setValue] = useState([null, null]);
@@ -18,8 +20,12 @@ export default function DatePicker() {
   const suiteId = useSelector(state => state.suite.suite)
   const user = useSelector(state => state.user)
   const hotel = useSelector(state => state.hotel.hotel)
- 
-  
+ // ? Test
+  const dispatch = useDispatch();
+  const token = useSelector(state => state.user.token)
+  const location = useLocation();
+  const navigate = useNavigate();
+// ? Test
   // ! Fetching data from reservations in the db    
   const { data, isSucces } = useGetReservationsQuery(suiteId);
   let reservations;
@@ -105,19 +111,26 @@ export default function DatePicker() {
            return true  
            };
   }
+
   // !    -------------------------------------------------------------------------------   !//
   if (value[0] && value[1] !== null) {
     nb_night = getDatesInRange(value[0], value[1]).length;
     cost = (nb_night * price).toFixed(2);
   }
+
   // ! Handle Reservation
   const [createReservation, { isLoading: isUpdating }] = useCreateReservationMutation()
   const handleReservation = () => {
-    if (verifyDate(value[0], value[1])) {
-      createReservation({suite_id : suiteId, user_id: user.user.user_id,token: user.token, body: {start_date: format(new Date(value[0]), "yyyy-MM-dd"), end_date : format(new Date(value[1]), "yyyy-MM-dd"), option, nb_night, cost, hotel  } })
-    } else {
-      alert('Date non disponible, veuillez choisir d\'autres dates ou une autre suite')
-    }
+      if (!token) {
+        dispatch(userLocation(location.pathname))
+        return navigate("/signin");
+    } 
+      if (verifyDate(value[0], value[1])) {
+        createReservation({ suite_id: suiteId, user_id: user.user.user_id, token: user.token, body: { start_date: format(new Date(value[0]), "yyyy-MM-dd"), end_date: format(new Date(value[1]), "yyyy-MM-dd"), option, nb_night, cost, hotel } })
+        setValue([null, null]);
+      } else {
+        alert('Date non disponible, veuillez choisir d\'autres dates ou une autre suite')
+      }
     
   }
  
@@ -168,8 +181,10 @@ export default function DatePicker() {
           null
       }
       </Grid>
-      <Grid item xs={12} sx={{ display:'flex', justifyContent:'center'}} >
+      <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }} >
+  
       <Button sx={{backgroundColor:'#92AAC7', color:'black'}} size='large' variant="contained" onClick={handleReservation} >Valider</Button>
+     
       </Grid>
 </Grid>
   );

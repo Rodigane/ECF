@@ -24,9 +24,7 @@ const SignIn = () => {
   }
 
   if (error) {
-    const origin = userLocation;
-    //alert('Erreur de connexion')
-    navigate(origin)
+    
   };
   
   if (token && isSuccess) {
@@ -99,7 +97,7 @@ const SignIn = () => {
             </Grid>
           </Box>
         </Box>
-      {queryState === 400 ? <SnackbarAlert message="une erreur est survenue" severity='error' /> : null}      
+      {queryState === 400 ? <SnackbarAlert message="une erreur est survenue" severity='error' />  : null}      
     </Container>
 
   );

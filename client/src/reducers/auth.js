@@ -9,9 +9,10 @@ export const authSlice = createSlice({
     userLocation(state, action) {
       state.auth = action.payload;
     },
+    resetLocation: () => initialState,
   },
 });
 
-export const { userLocation } = authSlice.actions;
+export const { userLocation, resetLocation } = authSlice.actions;
 
 export default authSlice.reducer;

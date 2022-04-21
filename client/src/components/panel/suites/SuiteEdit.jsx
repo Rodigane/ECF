@@ -48,23 +48,6 @@ export default function SuiteEdit(elem) {
     handleClose();
   }
 
-  /**   useEffect(() => {
-    (data?.data?.status)
-    return () => {
-           setDisplayFeedback(true)
-    };
-  }, data)
-  {
-        displayFeedback &&
-        <Snackbar open={open} autoHideDuration={6000} >
-        <Alert  severity="success" sx={{ width: '100%' }}>
-          This is a success message!
-        </Alert>
-      </Snackbar>
-      }
-      
-  */
-
   return (
   
     <>

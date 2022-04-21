@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, MenuItem, Select, InputLabel, FormHelperText, FormControl, SnackbarContent } from "@mui/material"
-import EditButton from '../../Buttons/EditButton';
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, MenuItem, Select, InputLabel } from "@mui/material"
 import {useCreateManagerMutation, useGetHotelsQuery} from '../../../api/apiSlice';
 import SnackbarAlert from '../../Buttons/Snackbar';
 import { useSelector } from 'react-redux';

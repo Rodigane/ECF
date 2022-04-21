@@ -20,24 +20,24 @@ const Suite = () => {
       <Container maxWidth='md' sx={{display:'flex', flexDirection:'column', alignItems:'center'}}>
         <Typography variant="h2" align="center" mt={3} mb={6}>{suite?.title}</Typography>
         
-      {  
-      gallery ?
+        {
+          gallery ?
             <Box>
-            <ImageList cols={2}   >
-                {gallery.map((photo) => (
-              <ImageListItem  key={photo}  >
-          <Image
-              src={`/${photo}`}
-              height='100%'
-              width='100%'
-              fit="cover"
-              duration={1500}
-          />
-              </ImageListItem>
-            ))}
+                <ImageList cols={1}   >
+                  {gallery.map((photo) => (
+                    <ImageListItem key={photo}  >
+                      <Image
+                        src={`/${photo}`}
+                        height='100%'
+                        width='100%'
+                        fit="cover"
+                        duration={1500}
+                      />
+                    </ImageListItem>
+                  ))}
                 </ImageList> 
-                     
-          </Box>   
+          </Box> 
+                 
           :
           null
     }

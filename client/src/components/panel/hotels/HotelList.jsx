@@ -55,11 +55,12 @@ const HotelList = () => {
                                 <TableCell align="center" noWrap="true" sx={{ maxWidth: "100px", overflow: "hidden", textOverflow: 'ellipsis' }}>{hotel.description}</TableCell>
                                 <TableCell align="center">{hotel.hotel_id}</TableCell>
                                 {userRole === "manager" ? null :
+                                <>
                                 <TableCell align="center">{hotel.manager_id}</TableCell>   
-                                }
                                 <TableCell align="center"><HotelEdit /></TableCell>
                                 <TableCell align="center"><HotelDelete /></TableCell>
-
+                                </>
+                                }
                             </TableRow>
                         }
                     </TableBody>

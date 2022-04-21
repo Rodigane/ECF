@@ -36,6 +36,7 @@ export const login = async (req, res) => {
   }
 };
 
+/** 
 export const refresh = (req, res) => {
   try {
     const refreshToken = req.cookies.refresh_token;
@@ -64,3 +65,4 @@ export const clear = (req, res) => {
     console.error(error);
   }
 };
+*/

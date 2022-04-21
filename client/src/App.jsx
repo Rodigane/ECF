@@ -1,7 +1,8 @@
 import CssBaseline from '@mui/material/CssBaseline';
 import { Routes, Route } from 'react-router-dom';
 import './App.css'
-import { Box, Snackbar, Alert } from "@mui/material";
+import { Box} from "@mui/material";
+
 // TODO index of components
 import Admin from './components/panel/Admin';
 import Contact from './components/Contact';
@@ -37,7 +38,7 @@ function App() {
         minHeight: '100vh',
       }}
     >
-        <CssBaseline />
+           <CssBaseline /> 
         <div className='Navbar'>
         <Navbar />
         </div>
@@ -68,14 +69,7 @@ function App() {
             <Route exact element={<Contact />} path="/contact"></Route>
             <Route exact element={<SignUp />} path="/signup"></Route>
             <Route exact element={<SignIn />} path="/signin"></Route>
-            <Route path="/reservation"
-              element={
-                <PrivateRoute>
-                  <Reservation />
-                </PrivateRoute>
-              }
-            />
-            {/**<Route exact element={<Reservation />} path="/reservation"></Route> */}  
+            <Route path="/reservation" element={<Reservation />}/>
         </Routes>
             
           </div>
@@ -84,7 +78,7 @@ function App() {
         <div className='footer'>
           <Footer />
         </div>
-      </Box>
+        </Box>
     </div>
   )
 }

@@ -34,6 +34,9 @@ app.use("/api/v1/managers", managersRoutes);
 app.use("/api/v1/contact", mailRoutes);
 app.use(cookieParser());
 
+app.get("/", (req, res) => {
+  res.send("APP IS RUNNING.");
+});
 console.log(PORT);
 app.listen(PORT, () => {
   console.log(`server up and running on port : ${PORT}`);
