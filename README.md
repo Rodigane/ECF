@@ -3,7 +3,7 @@
 
 This project was realised during my training at Studi, it's a web app for a hotel group, 
 which allows to make online reservations. Each  hotel manager can manage his premise from an 
-admininistration panel.
+administration panel.
 
 You can visit the web site at : https://www.glenkurt.online/
 
